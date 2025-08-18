@@ -13,6 +13,8 @@ namespace SPT_Management_System_Console_App
     {
         public DbSet<Student_Model> StudentTable { get; set; }
         public DbSet<Course_Model> CourseTable { get; set; }
+        public DbSet<Result_Model> ResultTable { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var path = "C:\\Users\\David Oyem\\source\\repos\\Student Productivity Toolkit\\SPT-Management System Console App\\Student Database";
@@ -33,8 +35,10 @@ namespace SPT_Management_System_Console_App
             modelBuilder.Entity<Course_Model>()
                 .HasOne(c=>c.Student).WithMany(s=>s.studentCourses)
                 .HasPrincipalKey(s=>s.uniqueUserId).HasForeignKey(c=>c._CuniqueUserId);// this make the unique unique user id the foreign key to cuniqueuserid
-        }
 
-   
+            modelBuilder.Entity<Result_Model>().HasKey(c => c._id);
+            modelBuilder.Entity<Result_Model>().Property(c => c._id).ValueGeneratedOnAdd();
+
+        }
     }
 }

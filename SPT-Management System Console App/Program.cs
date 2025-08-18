@@ -1,7 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.ComponentModel.Design;
-using System.Globalization;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Globalization;
 using SPT_Management_System_Console_App;
 using SPT_Management_System_Console_App.Models_Classes;
 using var db = new AppDbContext();
@@ -15,7 +12,7 @@ if (dbExists = true)
 }
 else {
     db.Database.EnsureCreated(); //if you dont add this it wont create the table in the database
-                                 //this makes it create the "student table database by force"
+    //this makes it create the "student table database by force"
 }
 
 
@@ -33,9 +30,9 @@ void Menu()
     Console.WriteLine("Press Corresponding key to select from the following options");
     Console.WriteLine("[A] Profile Creation");
     Console.WriteLine("[B] Course Management");
-    Console.WriteLine("[C] GPA Calculator");
+    Console.WriteLine("[C] Results Management");
     Console.WriteLine("[D] Exit");
-     ConsoleKeyInfo pressedKey = Console.ReadKey();
+    ConsoleKeyInfo pressedKey = Console.ReadKey();
     Console.Clear();
     switch (pressedKey.Key)
     {
@@ -43,18 +40,16 @@ void Menu()
             Console.WriteLine("[Profile Creation]");
             var newStudent = ProfileCreation();
             db.StudentTable.Add(newStudent);
-            db.SaveChanges();// profile creation feature added;)
-            Console.WriteLine("Profile Created");  //stopped here
-                             // next feature is the course management system
+            db.SaveChanges();
+            Console.WriteLine("Profile Created");  
             break;
 
         case ConsoleKey.B:
             Console.WriteLine("[Course Management]");
-            CourseManagement();// Course Management creation feature added;)
-            // next feature is GPA calculator
+            CourseManagement();
             break;
         case ConsoleKey.C:
-            //GPA CALCULATOR LOGIC
+            //result management LOGIC
             break;
         case ConsoleKey.D:
             Environment.Exit(0);
@@ -95,6 +90,17 @@ List<Object> Login()
     }
     return validLogin;
 }
+void/*for now , later it returns a string*/ RecoverStudentLogin()
+{
+    Console.WriteLine("Enter Your First name");
+    Console.WriteLine("Enter Your Last name");
+    Console.WriteLine("Enter Your Department");
+
+
+
+    //search the database for the entries find more things to narrow down sha 
+    // produce the student login string from the database
+}
 Student_Model ProfileCreation()
 {
     Student_Model student = new Student_Model();
@@ -134,7 +140,7 @@ void CourseManagement()
         Console.WriteLine("Press Corresponding key to select from the following options");
         Console.WriteLine("[A] Add Course");
         Console.WriteLine("[B] Remove Course");
-        Console.WriteLine("[C] View Courses");
+        Console.WriteLine("[C] View Courses");// maybe add an edit courses..?
         Console.WriteLine("[D] Exit");
         ConsoleKeyInfo pressedKey = Console.ReadKey();
         Console.Clear();
@@ -154,7 +160,7 @@ void CourseManagement()
                 break;
             case ConsoleKey.D:
                 Console.WriteLine("[Exiting...]");
-                break;
+                return;
 
 
 
@@ -176,7 +182,7 @@ void AddCourses(List<Object> _loginCred)
     {
 
         Console.WriteLine($"-------------------------------Course {i}-----------------------------");
-        i++;
+        
         Console.Write("Enter The Course Code: ");
         string cCode = Convert.ToString(Console.ReadLine()).ToUpper();
         if (cCode == "DONE")
@@ -192,10 +198,12 @@ void AddCourses(List<Object> _loginCred)
             case ConsoleKey.Y:
                 Console.Write("\nEnter The Course Title: ");
                 cTitle = Convert.ToString(Console.ReadLine());
+                i++;
                 break;
             case ConsoleKey.N:
                 cTitle = "NaN";
                 Console.WriteLine();
+                i++;
                 break;
             default:
                 Console.WriteLine("press the correct key");
@@ -218,9 +226,7 @@ void AddCourses(List<Object> _loginCred)
         };
         db.CourseTable.AddRange(course);
         db.SaveChanges();
-
     }
-
 }
 List<Course_Model> ViewCourse(List<Object> _loginCred)
 {
@@ -283,19 +289,69 @@ void RemoveCourse(List<Object> _loginCred)
         ViewCourse(_loginCred);
     }
 }
-
-void/*for now , later it returns a string*/ RecoverStudentLogin()
+void ResultManagement(List<Object> _loginCred)
 {
-    Console.WriteLine("Enter Your First name");
-    Console.WriteLine("Enter Your Last name");
-    Console.WriteLine("Enter Your Department");
+    Console.WriteLine("Press Corresponding key to select from the following options");
+    Console.WriteLine("[A] Results Upload");
+    Console.WriteLine("[B] GPA Calculator");
+    Console.WriteLine("[C] \"placeholder\"");// maybe add an edit courses..?
+    Console.WriteLine("[D] Exit");
+    ConsoleKeyInfo pressedKey = Console.ReadKey();
+    Console.Clear();
+    switch (pressedKey.Key)
+    {
+        case ConsoleKey.A:
+            Console.WriteLine("Results Upload");
+            break;
+        case ConsoleKey.B:
+            Console.WriteLine("GPA calc");
+            break;
+        case ConsoleKey.C:
 
-    //ideas to explore: 
-    // store  student login pair but encrypted student model
-    
-    //search the database for the entries find more things to narrow down sha 
-    // produce the student login string from the database
+            break;
+        case ConsoleKey.D:
+
+            return;
+
+
+
+        default:
+
+            break;
+
+    }
+}
+void ResultUpload(List<Object> _loginCred)
+{
+    string _tempSL = _loginCred[0].ToString(); // its the same name as the one inside login coz i was lazy to change it
+    var student = (Student_Model)_loginCred[1];
+    var CuniqueUserId = db.StudentTable.Where(s => s.studentLogin == _tempSL).Select(s => s.uniqueUserId).FirstOrDefault();
+    ViewCourse(_loginCred);
+
+    List<string> CourseCodes = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseCode).ToList();
+    List<uint> CourseUnit = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseUnit).ToList();
 
 }
+void GPACalculator(List<Object> _loginCred)
+{
+    string _tempSL = _loginCred[0].ToString(); // its the same name as the one inside login coz i was lazy to change it
+    var student = (Student_Model)_loginCred[1];
+    var CuniqueUserId = db.StudentTable.Where(s => s.studentLogin == _tempSL).Select(s => s.uniqueUserId).FirstOrDefault();
+    ViewCourse(_loginCred);
 
+    List<string> CourseCodes = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseCode).ToList();
+    List<string> CourseNames = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseName).ToList();
+    List<uint> CourseUnit = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseUnit).ToList();
 
+    Dictionary<Char, int> gradePoints = new Dictionary<char, int>()
+    {
+        {'A',5 },
+        {'B',4 },
+        {'C',3 }, 
+        {'D',2 },
+        {'E',1 },
+        {'F',0 }
+    };
+}
+//ideas to explore: 
+// store  student login pair but encrypted student model

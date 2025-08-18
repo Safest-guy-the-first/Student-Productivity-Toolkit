@@ -16,7 +16,5 @@ namespace SPT_Management_System_Console_App.Models_Classes
         public string courseName { get; set; }
         public uint courseUnit { get; set; }
         public Student_Model Student { get; set; }
-
-
     }
 }
