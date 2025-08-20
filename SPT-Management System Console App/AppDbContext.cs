@@ -24,7 +24,7 @@ namespace SPT_Management_System_Console_App
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student_Model>().HasKey(s => s._id);// this and
-
+            modelBuilder.Entity<Student_Model>().HasAlternateKey(s => s.uniqueUserId);// this and
             modelBuilder.Entity<Student_Model>().Property(s=>s._id).ValueGeneratedOnAdd();//this makes the db turn _id to primary key 
 
 
@@ -36,8 +36,11 @@ namespace SPT_Management_System_Console_App
                 .HasOne(c=>c.Student).WithMany(s=>s.studentCourses)
                 .HasPrincipalKey(s=>s.uniqueUserId).HasForeignKey(c=>c._CuniqueUserId);// this make the unique unique user id the foreign key to cuniqueuserid
 
-            modelBuilder.Entity<Result_Model>().HasKey(c => c._id);
-            modelBuilder.Entity<Result_Model>().Property(c => c._id).ValueGeneratedOnAdd();
+           
+            modelBuilder.Entity<Result_Model>().HasKey(r => r._id);
+            modelBuilder.Entity<Result_Model>().Property(r => r._id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Result_Model>().HasOne(r => r.Student).WithMany(r => r.Results).HasForeignKey(r => r._RuniqueUserId).HasPrincipalKey(s=>s.uniqueUserId);
+
 
         }
     }

@@ -11,7 +11,7 @@ namespace SPT_Management_System_Console_App.Models_Classes
     class Course_Model
     {
         [Key]public int _id;
-        public string _CuniqueUserId { get; set; }
+        [Required]public string _CuniqueUserId { get; set; }
         public string courseCode {  get; set; }
         public string courseName { get; set; }
         public uint courseUnit { get; set; }

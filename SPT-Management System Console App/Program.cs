@@ -49,7 +49,7 @@ void Menu()
             CourseManagement();
             break;
         case ConsoleKey.C:
-            //result management LOGIC
+            ResultManagement();
             break;
         case ConsoleKey.D:
             Environment.Exit(0);
@@ -289,8 +289,9 @@ void RemoveCourse(List<Object> _loginCred)
         ViewCourse(_loginCred);
     }
 }
-void ResultManagement(List<Object> _loginCred)
+void ResultManagement()
 {
+    var loginCred = Login();
     Console.WriteLine("Press Corresponding key to select from the following options");
     Console.WriteLine("[A] Results Upload");
     Console.WriteLine("[B] GPA Calculator");
@@ -302,6 +303,7 @@ void ResultManagement(List<Object> _loginCred)
     {
         case ConsoleKey.A:
             Console.WriteLine("Results Upload");
+            ResultUpload(loginCred);
             break;
         case ConsoleKey.B:
             Console.WriteLine("GPA calc");
@@ -330,7 +332,11 @@ void ResultUpload(List<Object> _loginCred)
 
     List<string> CourseCodes = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseCode).ToList();
     List<uint> CourseUnit = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseUnit).ToList();
-
+    for (int i = 0; i < CourseCodes.Count; i++)
+    {
+        Console.Write($"Enter the Grade [A,B,C,D,E,F] for {CourseCodes[i]}:  ");
+        //Stopped here Very tired Continue use a read key string is stress 
+    }
 }
 void GPACalculator(List<Object> _loginCred)
 {
