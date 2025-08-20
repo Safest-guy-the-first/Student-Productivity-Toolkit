@@ -10,8 +10,8 @@ using SPT_Management_System_Console_App;
 namespace SPT_Management_System_Console_App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250820140743_changedresultstogrades1")]
-    partial class changedresultstogrades1
+    [Migration("20250820141708_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
