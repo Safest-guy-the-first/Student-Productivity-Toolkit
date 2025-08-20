@@ -335,9 +335,10 @@ void GradeUpload(List<Object> _loginCred)
     List<uint> CourseUnit = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseUnit).ToList();
     
     int i = 0;
-    while (i < CourseCodes.Count )
+    foreach(string code in CourseCodes)
     {
-        Console.Write($"Enter the Grade [A,B,C,D,E,F] for {CourseCodes[i]}:  ");
+       
+        Console.Write($"Enter the Grade [A,B,C,D,E,F] for {code}:  ");
         char gradeChar = 'M';
         ConsoleKeyInfo pressedKey = Console.ReadKey();
         Console.Clear();
@@ -345,32 +346,32 @@ void GradeUpload(List<Object> _loginCred)
         {
             case ConsoleKey.A:
                 gradeChar = pressedKey.KeyChar;
-                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                Console.WriteLine($"{code}: {gradeChar}");
                 i++;
                 break;
             case ConsoleKey.B:
                 gradeChar = pressedKey.KeyChar;
-                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                Console.WriteLine($"{code}: {gradeChar}");
                 i++;
                 break;
             case ConsoleKey.C:
                 gradeChar = pressedKey.KeyChar;
-                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                Console.WriteLine($"{code}: {gradeChar}");
                 i++;
                 break;
             case ConsoleKey.D:
                 gradeChar = pressedKey.KeyChar;
-                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                Console.WriteLine($"{code}: {gradeChar}");
                 i++;
                 break;
             case ConsoleKey.E:
                 gradeChar = pressedKey.KeyChar;
-                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                Console.WriteLine($"{code}: {gradeChar}");
                 i++;
                 break;
             case ConsoleKey.F:
                 gradeChar = pressedKey.KeyChar;
-                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                Console.WriteLine($"{code}: {gradeChar}");
                 i++;
                 break;
 
@@ -378,10 +379,15 @@ void GradeUpload(List<Object> _loginCred)
                 Console.WriteLine("Enter the Correct Grade");
                 continue;
         }
+        if (i >= CourseCodes.Count)
+        {
+            Console.WriteLine("Grades Saved");
+            break;
+        }
         var grade = new Grades_Model()
         {
             _GuniqueUserId = db.StudentTable.Where(s => s.studentLogin == _tempSL).Select(s => s.studentLogin).FirstOrDefault(),
-            courseCode = CourseCodes[i],
+            courseCode = code,
             courseUnit = CourseUnit[i],
             grade = gradeChar,
             Student = student,
