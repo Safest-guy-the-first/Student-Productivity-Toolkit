@@ -9,3 +9,4 @@
 
 _**For now, it's still a CLI tool**_  
 _**I am working on the API**_
+_this is a hobby project to advance my skills_
