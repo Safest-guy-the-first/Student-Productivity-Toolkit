@@ -1,14 +1,11 @@
 # Student Productivity Toolkit
 
-## KEY FEATURES
-•
-An onboarding feature to create a profile for the software [DONE]
-•
-Course enrollment feature to add course for semesters for planning and scheduling in other
-features [DONE]
-•
-GPA calculator based on grade inputs.[IN PROGRESS]
+## Key Features
+- Onboarding feature to create a profile for the software **[DONE]**
+- Course enrollment feature to add courses for semesters for planning and scheduling in other features **[DONE]**
+- GPA calculator based on grade inputs **[IN PROGRESS]**
 
+---
 
-_**for now its still a CLI tool**_
-_**i am working on the API**_
+_**For now, it's still a CLI tool**_  
+_**I am working on the API**_
