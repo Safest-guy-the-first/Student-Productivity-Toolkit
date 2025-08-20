@@ -9,5 +9,6 @@ features [DONE]
 •
 GPA calculator based on grade inputs.[IN PROGRESS]
 
-**for now its still a CLI tool **
-**i am working on the API**
+
+_**for now its still a CLI tool**_
+_**i am working on the API**_
