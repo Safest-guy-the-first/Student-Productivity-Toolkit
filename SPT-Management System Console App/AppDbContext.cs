@@ -13,7 +13,7 @@ namespace SPT_Management_System_Console_App
     {
         public DbSet<Student_Model> StudentTable { get; set; }
         public DbSet<Course_Model> CourseTable { get; set; }
-        public DbSet<Result_Model> ResultTable { get; set; }
+        public DbSet<Grades_Model> GradesTable { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,9 +37,9 @@ namespace SPT_Management_System_Console_App
                 .HasPrincipalKey(s=>s.uniqueUserId).HasForeignKey(c=>c._CuniqueUserId);// this make the unique unique user id the foreign key to cuniqueuserid
 
            
-            modelBuilder.Entity<Result_Model>().HasKey(r => r._id);
-            modelBuilder.Entity<Result_Model>().Property(r => r._id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Result_Model>().HasOne(r => r.Student).WithMany(r => r.Results).HasForeignKey(r => r._RuniqueUserId).HasPrincipalKey(s=>s.uniqueUserId);
+            modelBuilder.Entity<Grades_Model>().HasKey(r => r._id);
+            modelBuilder.Entity<Grades_Model>().Property(r => r._id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Grades_Model>().HasOne(r => r.Student).WithMany(r => r.Results).HasForeignKey(r => r._GuniqueUserId).HasPrincipalKey(s=>s.uniqueUserId);
 
 
         }

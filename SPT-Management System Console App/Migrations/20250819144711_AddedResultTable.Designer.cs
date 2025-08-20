@@ -47,7 +47,7 @@ namespace SPT_Management_System_Console_App.Migrations
                     b.ToTable("CourseTable");
                 });
 
-            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Result_Model", b =>
+            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Grades_Model", b =>
                 {
                     b.Property<int>("_id")
                         .ValueGeneratedOnAdd()

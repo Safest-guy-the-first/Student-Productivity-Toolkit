@@ -52,7 +52,7 @@ namespace SPT_Management_System_Console_App.Migrations
                     b.ToTable("CourseTable");
                 });
 
-            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Result_Model", b =>
+            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Grades_Model", b =>
                 {
                     b.Property<int>("_id")
                         .ValueGeneratedOnAdd()
@@ -122,7 +122,7 @@ namespace SPT_Management_System_Console_App.Migrations
 
             modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Course_Model", b =>
                 {
-                    b.HasOne("SPT_Management_System_Console_App.Models_Classes.Result_Model", null)
+                    b.HasOne("SPT_Management_System_Console_App.Models_Classes.Grades_Model", null)
                         .WithMany("studentCourses")
                         .HasForeignKey("Result_Model_id");
 
@@ -136,7 +136,7 @@ namespace SPT_Management_System_Console_App.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Result_Model", b =>
+            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Grades_Model", b =>
                 {
                     b.HasOne("SPT_Management_System_Console_App.Student_Model", "Student")
                         .WithMany("Results")
@@ -148,7 +148,7 @@ namespace SPT_Management_System_Console_App.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Result_Model", b =>
+            modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Grades_Model", b =>
                 {
                     b.Navigation("studentCourses");
                 });

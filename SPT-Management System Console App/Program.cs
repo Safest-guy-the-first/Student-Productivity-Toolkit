@@ -293,7 +293,7 @@ void ResultManagement()
 {
     var loginCred = Login();
     Console.WriteLine("Press Corresponding key to select from the following options");
-    Console.WriteLine("[A] Results Upload");
+    Console.WriteLine("[A] Grades Upload");
     Console.WriteLine("[B] GPA Calculator");
     Console.WriteLine("[C] \"placeholder\"");// maybe add an edit courses..?
     Console.WriteLine("[D] Exit");
@@ -303,7 +303,7 @@ void ResultManagement()
     {
         case ConsoleKey.A:
             Console.WriteLine("Results Upload");
-            ResultUpload(loginCred);
+            GradeUpload(loginCred);
             break;
         case ConsoleKey.B:
             Console.WriteLine("GPA calc");
@@ -323,19 +323,71 @@ void ResultManagement()
 
     }
 }
-void ResultUpload(List<Object> _loginCred)
+void GradeUpload(List<Object> _loginCred)
 {
     string _tempSL = _loginCred[0].ToString(); // its the same name as the one inside login coz i was lazy to change it
     var student = (Student_Model)_loginCred[1];
     var CuniqueUserId = db.StudentTable.Where(s => s.studentLogin == _tempSL).Select(s => s.uniqueUserId).FirstOrDefault();
     ViewCourse(_loginCred);
+    
 
     List<string> CourseCodes = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseCode).ToList();
     List<uint> CourseUnit = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseUnit).ToList();
-    for (int i = 0; i < CourseCodes.Count; i++)
+    
+    int i = 0;
+    while (i < CourseCodes.Count )
     {
         Console.Write($"Enter the Grade [A,B,C,D,E,F] for {CourseCodes[i]}:  ");
-        //Stopped here Very tired Continue use a read key string is stress 
+        char gradeChar = 'M';
+        ConsoleKeyInfo pressedKey = Console.ReadKey();
+        Console.Clear();
+        switch (pressedKey.Key)
+        {
+            case ConsoleKey.A:
+                gradeChar = pressedKey.KeyChar;
+                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                i++;
+                break;
+            case ConsoleKey.B:
+                gradeChar = pressedKey.KeyChar;
+                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                i++;
+                break;
+            case ConsoleKey.C:
+                gradeChar = pressedKey.KeyChar;
+                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                i++;
+                break;
+            case ConsoleKey.D:
+                gradeChar = pressedKey.KeyChar;
+                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                i++;
+                break;
+            case ConsoleKey.E:
+                gradeChar = pressedKey.KeyChar;
+                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                i++;
+                break;
+            case ConsoleKey.F:
+                gradeChar = pressedKey.KeyChar;
+                Console.WriteLine($"{CourseCodes[i]}: {gradeChar}");
+                i++;
+                break;
+
+            default:
+                Console.WriteLine("Enter the Correct Grade");
+                continue;
+        }
+        var grade = new Grades_Model()
+        {
+            _GuniqueUserId = db.StudentTable.Where(s => s.studentLogin == _tempSL).Select(s => s.studentLogin).FirstOrDefault(),
+            courseCode = CourseCodes[i],
+            courseUnit = CourseUnit[i],
+            grade = gradeChar,
+            Student = student,
+        };
+        db.GradesTable.AddRange(grade);
+        db.SaveChanges();
     }
 }
 void GPACalculator(List<Object> _loginCred)
@@ -353,11 +405,13 @@ void GPACalculator(List<Object> _loginCred)
     {
         {'A',5 },
         {'B',4 },
-        {'C',3 }, 
+        {'C',3 },
         {'D',2 },
         {'E',1 },
         {'F',0 }
     };
+
 }
+
 //ideas to explore: 
 // store  student login pair but encrypted student model

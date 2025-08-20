@@ -17,7 +17,7 @@ namespace SPT_Management_System_Console_App.Migrations
             migrationBuilder.RenameColumn(
                 name: "_uniqueUserId",
                 table: "ResultTable",
-                newName: "_RuniqueUserId");
+                newName: "_GuniqueUserId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_ResultTable__uniqueUserId",
@@ -27,7 +27,7 @@ namespace SPT_Management_System_Console_App.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_ResultTable_StudentTable__RuniqueUserId",
                 table: "ResultTable",
-                column: "_RuniqueUserId",
+                column: "_GuniqueUserId",
                 principalTable: "StudentTable",
                 principalColumn: "uniqueUserId",
                 onDelete: ReferentialAction.Cascade);
@@ -41,7 +41,7 @@ namespace SPT_Management_System_Console_App.Migrations
                 table: "ResultTable");
 
             migrationBuilder.RenameColumn(
-                name: "_RuniqueUserId",
+                name: "_GuniqueUserId",
                 table: "ResultTable",
                 newName: "_uniqueUserId");
 

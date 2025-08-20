@@ -8,10 +8,10 @@ using SkiaSharp;
 
 namespace SPT_Management_System_Console_App.Models_Classes
 {
-    class Result_Model 
+    class Grades_Model 
     {
         [Key] public int _id;
-        public string _RuniqueUserId { get; set; }
+        public string _GuniqueUserId { get; set; }
         public string courseCode { get; set; }
         public uint courseUnit { get; set; }
         public char grade {  get; set; }

@@ -23,7 +23,7 @@ namespace SPT_Management_System_Console_App
         [Required]public string uniqueUserId {get; set;} // what will log a user in to their information // foreign key to course
         
         public List<Course_Model> studentCourses { get; set; }
-        public List<Result_Model> Results { get; set; }
+        public List<Grades_Model> Results { get; set; }
 
 
         public Student_Model()
