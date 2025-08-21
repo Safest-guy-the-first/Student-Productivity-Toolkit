@@ -3,7 +3,7 @@ using SPT_Management_System_Console_App;
 using SPT_Management_System_Console_App.Models_Classes;
 using var db = new AppDbContext();
 bool dbExists = await db.Database.CanConnectAsync(); 
-if (dbExists = true) 
+if (dbExists = true) // this is merely an assignment change to check
 {
     Console.BackgroundColor = ConsoleColor.Green;
     Console.WriteLine("Database Exists");
