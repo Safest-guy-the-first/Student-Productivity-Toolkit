@@ -1,0 +1,6 @@
+@SPT_API_HostAddress = http://localhost:5119
+
+GET {{SPT_API_HostAddress}}/spt/StudentModel
+Accept: application/json
+
+###

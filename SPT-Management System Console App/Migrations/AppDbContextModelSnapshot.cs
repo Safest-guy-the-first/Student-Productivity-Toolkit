@@ -46,7 +46,7 @@ namespace SPT_Management_System_Console_App.Migrations
 
                     b.HasIndex("_CuniqueUserId");
 
-                    b.ToTable("CourseTable");
+                    b.ToTable("CourseTable", (string)null);
                 });
 
             modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Grades_Model", b =>
@@ -73,7 +73,7 @@ namespace SPT_Management_System_Console_App.Migrations
 
                     b.HasIndex("_GuniqueUserId");
 
-                    b.ToTable("GradesTable");
+                    b.ToTable("GradesTable", (string)null);
                 });
 
             modelBuilder.Entity("SPT_Management_System_Console_App.Student_Model", b =>
@@ -114,7 +114,7 @@ namespace SPT_Management_System_Console_App.Migrations
                     b.HasIndex("uniqueUserId")
                         .IsUnique();
 
-                    b.ToTable("StudentTable");
+                    b.ToTable("StudentTable", (string)null);
                 });
 
             modelBuilder.Entity("SPT_Management_System_Console_App.Models_Classes.Course_Model", b =>

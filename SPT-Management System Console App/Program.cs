@@ -90,17 +90,17 @@ List<Object> Login()
     }
     return validLogin;
 }
-void/*for now , later it returns a string*/ RecoverStudentLogin()
+/*voidfor now, later it returns a string RecoverStudentLogin()
 {
     Console.WriteLine("Enter Your First name");
-    Console.WriteLine("Enter Your Last name");
-    Console.WriteLine("Enter Your Department");
+Console.WriteLine("Enter Your Last name");
+Console.WriteLine("Enter Your Department");
 
 
 
     //search the database for the entries find more things to narrow down sha 
     // produce the student login string from the database
-}
+}*/
 Student_Model ProfileCreation()
 {
     Student_Model student = new Student_Model();
@@ -141,7 +141,8 @@ void CourseManagement()
         Console.WriteLine("[A] Add Course");
         Console.WriteLine("[B] Remove Course");
         Console.WriteLine("[C] View Courses");// maybe add an edit courses..?
-        Console.WriteLine("[D] Exit");
+        Console.WriteLine("[D] Edit Courses");
+        Console.WriteLine("[E] Exit");
         ConsoleKeyInfo pressedKey = Console.ReadKey();
         Console.Clear();
         switch (pressedKey.Key)
@@ -159,6 +160,9 @@ void CourseManagement()
                 ViewCourse(loginCred);
                 break;
             case ConsoleKey.D:
+                Console.WriteLine("[Editing Courses]");
+                return;
+            case ConsoleKey.E:
                 Console.WriteLine("[Exiting...]");
                 return;
 
@@ -306,7 +310,7 @@ void ResultManagement()
             GradeUpload(loginCred);
             break;
         case ConsoleKey.B:
-            Console.WriteLine("GPA calc");
+            GPACalculator(loginCred);
             break;
         case ConsoleKey.C:
 
@@ -334,12 +338,13 @@ void GradeUpload(List<Object> _loginCred)
     List<string> CourseCodes = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseCode).ToList();
     List<uint> CourseUnit = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseUnit).ToList();
     
+
     int i = 0;
     foreach(string code in CourseCodes)
-    {
-       
+    {  
         Console.Write($"Enter the Grade [A,B,C,D,E,F] for {code}:  ");
-        char gradeChar = 'M';
+        char gradeChar = 'M'; //just random coz i cant set it to null
+                              // for some reason char? and char are different and i couldnt* be bothered casting
         ConsoleKeyInfo pressedKey = Console.ReadKey();
         Console.Clear();
         switch (pressedKey.Key)
@@ -402,12 +407,8 @@ void GPACalculator(List<Object> _loginCred)
     var student = (Student_Model)_loginCred[1];
     var CuniqueUserId = db.StudentTable.Where(s => s.studentLogin == _tempSL).Select(s => s.uniqueUserId).FirstOrDefault();
     ViewCourse(_loginCred);
-
-    List<string> CourseCodes = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseCode).ToList();
-    List<string> CourseNames = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseName).ToList();
-    List<uint> CourseUnit = db.CourseTable.Where(c => c._CuniqueUserId == CuniqueUserId).Select(s => s.courseUnit).ToList();
-
-    Dictionary<Char, int> gradePoints = new Dictionary<char, int>()
+   
+    Dictionary<Char, uint> gradePoints = new Dictionary<char, uint>()
     {
         {'A',5 },
         {'B',4 },
@@ -415,7 +416,28 @@ void GPACalculator(List<Object> _loginCred)
         {'D',2 },
         {'E',1 },
         {'F',0 }
-    };
+    };// lookup dict for grades to uints
+    List<char> grades = db.GradesTable.Select(g => g.grade).ToList(); //the letters
+    List<uint> creditUnits = db.GradesTable.Select(g=>g.courseUnit).ToList();// units of each course
+    List<uint> gradePValues = new List<uint>();// the values of the grades
+    uint qualityPoint;
+    
+    foreach(char c in grades)
+    {
+        //need Total and normal Credit Units, Grade point , quality point = (credit unit *grade point)
+        gradePoints.TryGetValue(char.ToUpper(c), out uint value);
+        gradePValues.Add(value);
+    }
+    uint sumQP = 0;
+    uint sumCU = 0;
+    for (int i = 0; i < gradePValues.Count; i++)
+    {
+        qualityPoint = creditUnits[i] * gradePValues[i];
+        sumQP += qualityPoint; 
+        sumCU += creditUnits[i];// stopped here 
+    }
+    float GPA = (float)sumQP / sumCU;
+    Console.WriteLine($"Your GPA is {MathF.Round(GPA,2)}");
 
 }
 
