@@ -3,4 +3,34 @@
 GET {{SPT_API_HostAddress}}/spt/StudentModel
 Accept: application/json
 
+###  
+GET {{SPT_API_HostAddress}}/spt/StudentModel/search?FirstName=David&LastName=Oyem
+Accept: application/json
+
+###
+POST {{SPT_API_HostAddress}}/spt/StudentModel
+Content-Type: application/json
+{
+  "firstName": "David",
+  "lastName": "Oyem",
+  "department": "Petroleum Engineering",
+  "level": "400",
+  "_numLevel": 400,
+  "studentLogin": "m",
+  "uniqueUserId": "m"
+}
+###
+DELETE {{SPT_API_HostAddress}}/spt/StudentModel/delete
+Content-Type: application/json
+{
+  "firstName": "David",
+  "lastName": "Oyem",
+  "studentLogin": "daoy40"
+}
+###
+PATCH {{SPT_API_HostAddress}}/spt/StudentModel/edit/355987b8
+Content-Type: application/json
+{
+    "email": "lolade.sanni@gmail.com"
+}
 ###

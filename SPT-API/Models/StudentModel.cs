@@ -10,12 +10,8 @@ namespace SPT_API.Models
         public string department { get; set; }
         public string level { get; set; }
         public uint _numLevel { get; set; }
-        public string studentLogin { get; set; } //temporary 
-        [Required] public string uniqueUserId { get; set; }
-
-        public StudentModel()
-        {
-            uniqueUserId = Guid.NewGuid().ToString("N")/*to remove dashes*/.Substring(0, 8);
-        }
+        public string studentLogin { get; set; } = "m"; // need to encrypt
+        public string email { get; set; } = "m";
+        [Required] public string uniqueUserId { get; set; } = "m";
     }
 }
