@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SPT_API.Data;
 using SPT_API.Data.DTOs;
+using SPT_API.Migrations;
 using SPT_API.Models;
 
 namespace SPT_API.Controllers
@@ -27,10 +28,10 @@ namespace SPT_API.Controllers
             }
             return Ok(studentByParams);
         }
-        [HttpGet("search/{userID}")]
-        public ActionResult<StudentModel> GetStudentByUniqueID([FromRoute] string userID)
+        [HttpGet("search/{username}")]
+        public ActionResult<StudentModel> GetStudentByUsername([FromRoute] string username)
         {
-            var studentByParams = _db.StudentTable.FirstOrDefault(s => s.uniqueUserId== userID);
+            var studentByParams = _db.StudentTable.FirstOrDefault(s => s.uniqueUserId== username);
             if (studentByParams == null)
             {
                 return NotFound();
@@ -39,26 +40,27 @@ namespace SPT_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddStudent([FromBody] StudentModel student)
+        public IActionResult AddStudent([FromBody] StudentModel student) //i need this to return username
         {
             if (student == null) { return BadRequest("Data Is Required"); }
             student.uniqueUserId = Guid.NewGuid().ToString("N").Substring(0, 8);
-            student.studentLogin =
+            student.studentUserName =
                student.firstName.Substring(0, 2).ToLower() + student.lastName.Substring(0, 2).ToLower() + student.uniqueUserId.Substring(5, 2).ToLower();
 
 
             _db.StudentTable.Add(student);
             _db.SaveChanges();  
-            return Ok(student); 
+            return Ok(student.studentUserName); 
         }
 
         [HttpDelete("delete")]
         public IActionResult DeleteStudent([FromBody] DeleteUserDTO deleteReq)
         {
             if (deleteReq == null) { return BadRequest("Null Entry"); }
-            var studentDelReq = _db.StudentTable.FirstOrDefault(s => s.firstName == deleteReq.firstName 
-            && s.lastName == deleteReq.lastName
-            && s.studentLogin == deleteReq.studentLogin);
+            var studentDelReq = _db.StudentTable.FirstOrDefault(s => s.firstName == deleteReq._firstName 
+            && s.lastName == deleteReq._lastName
+            && s.studentUserName == deleteReq._studentUsername
+            && s.studentPassword == deleteReq._studentPassword);
             if (studentDelReq == null) { NotFound("Student not Found"); }
 
             _db.Remove(studentDelReq);
@@ -66,11 +68,10 @@ namespace SPT_API.Controllers
             return NoContent();
         }
 
-        //add an edit funtion
-        [HttpPatch("edit/{uniqueStudentID}")] //this function has refection study it well
-        public ActionResult<StudentModel> EditStudent(string uniqueStudentID, [FromBody] updateStudentDTO edit)
+        [HttpPatch("edit/{userName}")] //this function has reflection study it well
+        public ActionResult<StudentModel> EditStudent(string userName, [FromBody] updateStudentDTO edit)
         {
-            var student = _db.StudentTable.FirstOrDefault(s=>s.uniqueUserId == uniqueStudentID);
+            var student = _db.StudentTable.FirstOrDefault(s=>s.studentUserName == userName);
             if (student == null) { NotFound("Student Doesn't Exist"); }
 
             var studentType = typeof(StudentModel);

@@ -16,7 +16,7 @@ namespace SPT_API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StudentModel>().HasKey(s => s._id);
+            modelBuilder.Entity<StudentModel>().HasKey(s => s.id);
         }
 
 

@@ -18,11 +18,8 @@ namespace SPT_API.Migrations
 
             modelBuilder.Entity("SPT_API.Models.StudentModel", b =>
                 {
-                    b.Property<int>("_id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("_numLevel")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("department")
@@ -33,11 +30,11 @@ namespace SPT_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("firstName")
+                    b.Property<string>("_firstName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("lastName")
+                    b.Property<string>("_lastName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -45,15 +42,17 @@ namespace SPT_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("studentLogin")
-                        .IsRequired()
+                    b.Property<string>("studentPassword")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("studentUserName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("uniqueUserId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("_id");
+                    b.HasKey("id");
 
                     b.ToTable("StudentTable");
                 });

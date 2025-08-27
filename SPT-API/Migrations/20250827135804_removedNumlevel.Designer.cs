@@ -10,8 +10,8 @@ using SPT_API.Data;
 namespace SPT_API.Migrations
 {
     [DbContext(typeof(SPT_APIDbContext))]
-    [Migration("20250825105628_addedemailtostudentmodel")]
-    partial class addedemailtostudentmodel
+    [Migration("20250827135804_removedNumlevel")]
+    partial class removedNumlevel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,9 +23,6 @@ namespace SPT_API.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("_numLevel")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("department")
@@ -48,8 +45,10 @@ namespace SPT_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("studentPassword")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("studentUserName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("uniqueUserId")
