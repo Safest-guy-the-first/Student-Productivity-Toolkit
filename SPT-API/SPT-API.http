@@ -33,3 +33,11 @@ Content-Type: application/json
     "email": "oyemdavid12@gmail.com"
 }
 ###
+POST {{SPT_API_HostAddress}}/spt/StudentModel/login
+Content-Type: application/json
+{
+    "_Email": "oyemdavid12@gmail.com",
+    "_Password": "Vision@cu"
+}
+
+###

@@ -13,5 +13,6 @@ namespace SPT_API.Models
         public string? studentPassword { get; set; } = null ;
         public string email { get; set; } = "m";
         [Required] public string? uniqueUserId { get; set; } = null;
+         public List<CourseModel>? Courses { get; set; }
     }
 }

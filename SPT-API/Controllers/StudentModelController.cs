@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Cryptography.Pkcs;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using SPT_API.Data;
 using SPT_API.Data.DTOs;
 using SPT_API.Migrations;
 using SPT_API.Models;
+using SPT_API.Services.Password;
+using SPT_API.Services.StudentServices;
 
 namespace SPT_API.Controllers
 {
@@ -10,18 +14,25 @@ namespace SPT_API.Controllers
     [ApiController]
     public class StudentModelController : Controller
     {
-        private SPT_APIDbContext _db;
+        private readonly IStudentService _studentService;
+        private readonly SPT_APIDbContext _db;
         public StudentModelController(SPT_APIDbContext db) { _db = db; }
+        public StudentModelController(IStudentService studentService)
+        {
+            _studentService = studentService;
+        }
 
         [HttpGet]
-        public ActionResult<List<StudentModel>> GetUser()
+        public IActionResult GetStudents()
         {
-            return Ok(_db.StudentTable.ToList());
+            var allStudents = _studentService.GetAllStudents();
+            return Ok(allStudents);
         }
+
         [HttpGet("search")]
-        public ActionResult<StudentModel> GetStudentByParams([FromQuery] string FirstName, [FromQuery] string LastName) 
+        public IActionResult GetStudentByParams([FromQuery] string FirstName, [FromQuery] string LastName) 
         {
-            var studentByParams = _db.StudentTable.FirstOrDefault(s => s.firstName == FirstName && s.lastName == LastName);
+            var studentByParams = _studentService.GetStudentByParams(FirstName,LastName);
             if (studentByParams == null)
             {
                 return NotFound();
@@ -31,68 +42,52 @@ namespace SPT_API.Controllers
         [HttpGet("search/{username}")]
         public ActionResult<StudentModel> GetStudentByUsername([FromRoute] string username)
         {
-            var studentByParams = _db.StudentTable.FirstOrDefault(s => s.uniqueUserId== username);
-            if (studentByParams == null)
+            var studentByUserName = _studentService.GetStudentByUsername;
+            if (studentByUserName == null)
             {
                 return NotFound();
             }
-            return Ok(studentByParams);
+            return Ok(studentByUserName);
         }
 
         [HttpPost]
-        public IActionResult AddStudent([FromBody] StudentModel student) //i need this to return username
+        public IActionResult AddStudent([FromBody] StudentModel student, IPasswordService passwordService) 
         {
             if (student == null) { return BadRequest("Data Is Required"); }
-            student.uniqueUserId = Guid.NewGuid().ToString("N").Substring(0, 8);
-            student.studentUserName =
-               student.firstName.Substring(0, 2).ToLower() + student.lastName.Substring(0, 2).ToLower() + student.uniqueUserId.Substring(5, 2).ToLower();
 
-
-            _db.StudentTable.Add(student);
-            _db.SaveChanges();  
-            return Ok(student.studentUserName); 
+            var added = _studentService.AddStudent(student, passwordService);
+            return CreatedAtAction(nameof(GetStudentByUsername), new {id = added.studentUserName},added);
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteStudent([FromBody] DeleteUserDTO deleteReq)
+        public IActionResult DeleteStudent([FromBody] DeleteUserDTO deleteReq, IPasswordService passwordService)
         {
+            
             if (deleteReq == null) { return BadRequest("Null Entry"); }
-            var studentDelReq = _db.StudentTable.FirstOrDefault(s => s.firstName == deleteReq._firstName 
-            && s.lastName == deleteReq._lastName
-            && s.studentUserName == deleteReq._studentUsername
-            && s.studentPassword == deleteReq._studentPassword);
-            if (studentDelReq == null) { NotFound("Student not Found"); }
-
-            _db.Remove(studentDelReq);
-            _db.SaveChanges();
+            var deleteStats = _studentService.DeleteStudent(deleteReq, passwordService);
+            if (deleteStats.Success == false)
+            {
+                return BadRequest(DeleteStudent);
+            }
+           
             return NoContent();
         }
 
         [HttpPatch("edit/{userName}")] //this function has reflection study it well
-        public ActionResult<StudentModel> EditStudent(string userName, [FromBody] updateStudentDTO edit)
+        public IActionResult EditStudent(string userName, [FromBody] updateStudentDTO edit)
         {
-            var student = _db.StudentTable.FirstOrDefault(s=>s.studentUserName == userName);
-            if (student == null) { NotFound("Student Doesn't Exist"); }
-
-            var studentType = typeof(StudentModel);
-            var dtoType = typeof(updateStudentDTO);
-
-            var properties = typeof(StudentModel).GetProperties();
-            foreach(var dtoProperty in dtoType.GetProperties())
-            {
-                var newValue = dtoProperty.GetValue(edit);
-                if (newValue != null)
-                {
-                    var modelProp = studentType.GetProperty(dtoProperty.Name);
-                    if (modelProp != null && modelProp.CanWrite)
-                    {
-                        modelProp.SetValue(student, newValue);
-                    }
-                    
-                }
-            }
-            _db.SaveChanges();
+            var student = _studentService.EditStudent(userName, edit);
             return Ok(student);
+        }
+        [HttpPost("login")]
+        public ActionResult<LoginResponseDTO> Login([FromBody] LoginRequestDTO loginReq, IPasswordService passwordService)
+        {
+           var loginResponse = _studentService.Login(loginReq, passwordService);
+            if (loginResponse.Success == false )
+            {
+                return Unauthorized(loginResponse);
+            }
+           return Ok(loginResponse);
         }
     }
 }
