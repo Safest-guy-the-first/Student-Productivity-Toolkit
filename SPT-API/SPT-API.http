@@ -8,7 +8,7 @@ GET {{SPT_API_HostAddress}}/spt/StudentModel/search?FirstName=David&LastName=Oye
 Accept: application/json
 
 ###
-POST {{SPT_API_HostAddress}}/spt/StudentModel
+POST {{SPT_API_HostAddress}}/spt/StudentModel/create
 Content-Type: application/json
 {
   "firstName": "David",

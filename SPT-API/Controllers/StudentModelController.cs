@@ -15,8 +15,6 @@ namespace SPT_API.Controllers
     public class StudentModelController : Controller
     {
         private readonly IStudentService _studentService;
-        private readonly SPT_APIDbContext _db;
-        public StudentModelController(SPT_APIDbContext db) { _db = db; }
         public StudentModelController(IStudentService studentService)
         {
             _studentService = studentService;
@@ -30,9 +28,9 @@ namespace SPT_API.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult GetStudentByParams([FromQuery] string FirstName, [FromQuery] string LastName) 
+        public IActionResult GetStudentByParams([FromQuery] string FirstName, [FromQuery] string LastName)
         {
-            var studentByParams = _studentService.GetStudentByParams(FirstName,LastName);
+            var studentByParams = _studentService.GetStudentByParams(FirstName, LastName);
             if (studentByParams == null)
             {
                 return NotFound();
@@ -50,13 +48,13 @@ namespace SPT_API.Controllers
             return Ok(studentByUserName);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult AddStudent([FromBody] StudentModel student, IPasswordService passwordService) 
         {
             if (student == null) { return BadRequest("Data Is Required"); }
 
             var added = _studentService.AddStudent(student, passwordService);
-            return CreatedAtAction(nameof(GetStudentByUsername), new {id = added.studentUserName},added);
+            return CreatedAtAction(nameof(GetStudentByUsername), new {username = added.studentUserName},added);
         }
 
         [HttpDelete("delete")]
