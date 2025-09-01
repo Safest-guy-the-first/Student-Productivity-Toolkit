@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorSPT.Client\BlazorSPT.Client.csproj" />
-    <PackageReference Include="Docker.DotNet" Version="3.125.15" />
+    <ProjectReference Include="..\BlazorSPT.Client\BlazorSPTAuto.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
 
 </Project>

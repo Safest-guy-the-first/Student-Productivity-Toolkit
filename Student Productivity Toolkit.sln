@@ -7,9 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPT-Management System Conso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPT-API", "SPT-API\SPT-API.csproj", "{FE82A8E4-BCC9-4839-88C0-A10DCB2CF44E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSPT", "BlazorSPT\BlazorSPT\BlazorSPT.csproj", "{A2B7261D-0E79-4E0E-AD1B-4D06345E138B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSPTAuto", "BlazorSPT\BlazorSPT\BlazorSPTAuto.csproj", "{A2B7261D-0E79-4E0E-AD1B-4D06345E138B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSPT.Client", "BlazorSPT\BlazorSPT.Client\BlazorSPT.Client.csproj", "{7FAF2416-0199-4C6D-9B2E-A9BC9FF19203}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSPTAuto.Client", "BlazorSPT\BlazorSPT.Client\BlazorSPTAuto.Client.csproj", "{7FAF2416-0199-4C6D-9B2E-A9BC9FF19203}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSPTServerSideTest", "BlazorSPTServerSide\BlazorSPTServerSideTest.csproj", "{3E0EC599-BCB1-451D-8430-A9FE04033325}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7FAF2416-0199-4C6D-9B2E-A9BC9FF19203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FAF2416-0199-4C6D-9B2E-A9BC9FF19203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FAF2416-0199-4C6D-9B2E-A9BC9FF19203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0EC599-BCB1-451D-8430-A9FE04033325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0EC599-BCB1-451D-8430-A9FE04033325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0EC599-BCB1-451D-8430-A9FE04033325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0EC599-BCB1-451D-8430-A9FE04033325}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
