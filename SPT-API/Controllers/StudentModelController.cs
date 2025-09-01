@@ -15,8 +15,6 @@ namespace SPT_API.Controllers
     public class StudentModelController : Controller
     {
         private readonly IStudentService _studentService;
-        private readonly SPT_APIDbContext _db;
-        public StudentModelController(SPT_APIDbContext db) { _db = db; }
         public StudentModelController(IStudentService studentService)
         {
             _studentService = studentService;
@@ -50,13 +48,13 @@ namespace SPT_API.Controllers
             return Ok(studentByUserName);
         }
 
-        [HttpPost]
+        [HttpPost("createstudent")]
         public IActionResult AddStudent([FromBody] StudentModel student, IPasswordService passwordService) 
         {
             if (student == null) { return BadRequest("Data Is Required"); }
 
             var added = _studentService.AddStudent(student, passwordService);
-            return CreatedAtAction(nameof(GetStudentByUsername), new {id = added.studentUserName},added);
+            return CreatedAtAction(nameof(GetStudentByUsername), new { username = added.studentUserName }, added); ;
         }
 
         [HttpDelete("delete")]
@@ -73,7 +71,7 @@ namespace SPT_API.Controllers
             return NoContent();
         }
 
-        [HttpPatch("edit/{userName}")] //this function has reflection study it well
+        [HttpPatch("edit/{userName}")] 
         public IActionResult EditStudent(string userName, [FromBody] updateStudentDTO edit)
         {
             var student = _studentService.EditStudent(userName, edit);

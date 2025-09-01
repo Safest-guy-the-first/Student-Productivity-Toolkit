@@ -8,14 +8,15 @@ GET {{SPT_API_HostAddress}}/spt/StudentModel/search?FirstName=David&LastName=Oye
 Accept: application/json
 
 ###
-POST {{SPT_API_HostAddress}}/spt/StudentModel
+POST {{SPT_API_HostAddress}}/spt/StudentModel/createstudent
 Content-Type: application/json
 {
-  "firstName": "David",
-  "lastName": "Oyem",
-  "department": "Petroleum Engineering",
-  "level": "400",
-  "studentPassword":"Vision@cu",
+  "firstName": "Oyem",
+  "lastName": "Deborah",
+  "department": "Medicine",
+  "level": "100",
+  "studentPassword":"Vision@cuqwerty54321",
+  "uniqueUserId": "m"
 }
 ###
 DELETE {{SPT_API_HostAddress}}/spt/StudentModel/delete
@@ -27,7 +28,7 @@ Content-Type: application/json
   "_studentPassword": "Vision@cu"
 }
 ###
-PATCH {{SPT_API_HostAddress}}/spt/StudentModel/edit/daoy42
+PATCH {{SPT_API_HostAddress}}/spt/StudentModel/edit/losad8
 Content-Type: application/json
 {
     "email": "oyemdavid12@gmail.com"
@@ -37,7 +38,7 @@ POST {{SPT_API_HostAddress}}/spt/StudentModel/login
 Content-Type: application/json
 {
     "_Email": "oyemdavid12@gmail.com",
-    "_Password": "Vision@cu"
+    "_Password": "Vision@cu123"
 }
 
 ###

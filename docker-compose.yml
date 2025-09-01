@@ -1,0 +1,15 @@
+services:
+  spt-api:
+    image: ${DOCKER_REGISTRY-}sptapi
+    deploy:
+        replicas: 1
+    build:
+      context: .
+      dockerfile: SPT-API/Dockerfile
+    ports:
+        - "8080:8090"
+    volumes:
+    - ./data:/app/data
+    
+  
+    

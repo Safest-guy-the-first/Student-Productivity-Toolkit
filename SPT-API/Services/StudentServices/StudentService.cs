@@ -51,6 +51,12 @@ namespace SPT_API.Services.StudentServices
         {
             var acpass = _db.StudentTable.FirstOrDefault(s => s.studentUserName == deleteReq._studentUsername);
             DeleteUserResponse delResponse = new DeleteUserResponse();
+            if (acpass == null)
+            {
+                delResponse.Success = false;
+                delResponse.Message = "Invalid Username";
+                return delResponse;
+            }
 
             if (!passwordService.VerifyPassword(deleteReq._studentPassword, acpass.studentPassword))
             {
@@ -78,7 +84,7 @@ namespace SPT_API.Services.StudentServices
             return delResponse;
         }
 
-        public StudentModel EditStudent(string userName, updateStudentDTO edit)
+        public StudentModel EditStudent(string userName, updateStudentDTO edit) //this function has reflection study it well
         {
             var student = _db.StudentTable.FirstOrDefault(s => s.studentUserName == userName);
             if (student == null) { return null; }
