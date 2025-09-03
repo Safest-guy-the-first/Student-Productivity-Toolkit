@@ -16,6 +16,7 @@ Content-Type: application/json
   "department": "Petroleum Engineering",
   "level": "400",
   "studentPassword":"Vision@cu",
+  "uniqueUserId": "m"
 }
 ###
 DELETE {{SPT_API_HostAddress}}/spt/StudentModel/delete
@@ -36,8 +37,16 @@ Content-Type: application/json
 POST {{SPT_API_HostAddress}}/spt/StudentModel/login
 Content-Type: application/json
 {
-    "_Email": "oyemdavid12@gmail.com",
+    "_UserName": "daoyd6",
     "_Password": "Vision@cu"
 }
+###
+GET {{SPT_API_HostAddress}}/spt_c/CourseModel/courses
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxZGUyZWQ2OSIsIm5iZiI6MTc1NjkxNDA0NCwiZXhwIjoxNzU3MDAwNDQ0LCJpYXQiOjE3NTY5MTQwNDR9.NdW158Lhcx7t0S9vqGMKnLLIpHmIqPKLOfFVPmFq0HA
+Accept: application/json
+
+
 
 ###
+GET {{SPT_API_HostAddress}}/spt_c/CourseModel/courseCode
+Accept: application/json

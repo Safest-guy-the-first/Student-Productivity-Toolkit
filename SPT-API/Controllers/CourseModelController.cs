@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SPT_API.Services.CourseServices;
 
 namespace SPT_API.Controllers
 {
+    
+    [Route("spt_c/[controller]")]
+    [ApiController]
     public class CourseModelController : Controller
     {
         private readonly ICourseService _courseService;
@@ -11,15 +15,18 @@ namespace SPT_API.Controllers
         {
               _courseService = courseService;
         }
-        [HttpGet("(student/{cuuid})")]
-        public IActionResult GetAllCourses([FromQuery] string cuuid)
+        /*[Authorize]*/
+        [HttpGet("courses")]
+        public IActionResult GetAllCourses()
         {
-            var courses = _courseService.GetAllCourses(cuuid);
-            if (!courses.Any()) { return NotFound("No Courses Found for the student"); }
+            var _cuuid = User.FindFirstValue(ClaimTypes.Name);
+            if (_cuuid == null) { return Unauthorized(new{ Message = "Hello"}); }
+            var courses = _courseService.GetAllCourses(_cuuid);
+            if (!courses.Any()) { return NotFound(new { Message = "No Courses Found for the student"}); }
             return Ok(courses);
         }
 
-        [HttpGet("{courseCode}")]
+        [HttpGet("courseCode")]
         public IActionResult GetCourseByCourseCode()
         {
             return null;

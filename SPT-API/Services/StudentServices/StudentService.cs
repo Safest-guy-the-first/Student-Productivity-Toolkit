@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SPT_API.Data;
 using SPT_API.Data.DTOs;
 using SPT_API.Models;
@@ -135,6 +139,22 @@ namespace SPT_API.Services.StudentServices
             response.Success = true;
             response.Message = "Login successful";
             response.studentID = student.uniqueUserId;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("whatthehellisthisthingsproblemjesustakecontrol");
+            var nameClaimType = ClaimTypes.NameIdentifier;
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(nameClaimType, student.uniqueUserId)
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            }; 
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            response.token = tokenHandler.WriteToken(token);
+            
 
             return response;
         }

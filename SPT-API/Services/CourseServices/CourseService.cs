@@ -15,8 +15,8 @@ namespace SPT_API.Services.CourseServices
         
         public IEnumerable<CourseModel> GetAllCourses(string _cuuid)
         {
-            var course = _db.CourseTable.Where(c=>c.cuuid == _cuuid).ToList();
-            return course;
+            var courses = _db.CourseTable.Where(c=>c.cuuid == _cuuid).ToList();
+            return courses;
         }
    
         public CourseModel GetCourse([FromQuery] string courseCode)
