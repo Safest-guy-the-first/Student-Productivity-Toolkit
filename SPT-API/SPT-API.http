@@ -41,12 +41,42 @@ Content-Type: application/json
     "_Password": "Vision@cu"
 }
 ###
-GET {{SPT_API_HostAddress}}/spt_c/CourseModel/courses
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxZGUyZWQ2OSIsIm5iZiI6MTc1NjkxNDA0NCwiZXhwIjoxNzU3MDAwNDQ0LCJpYXQiOjE3NTY5MTQwNDR9.NdW158Lhcx7t0S9vqGMKnLLIpHmIqPKLOfFVPmFq0HA
+GET {{SPT_API_HostAddress}}/spt/c/CourseModel/courses
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
 Accept: application/json
 
 
 
 ###
-GET {{SPT_API_HostAddress}}/spt_c/CourseModel/courseCode
+GET {{SPT_API_HostAddress}}/spt/c/CourseModel/courses/PET101
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
 Accept: application/json
+
+###
+POST {{SPT_API_HostAddress}}/spt/c/CourseModel/addcourse
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
+Content-Type: application/json
+{
+  "cuuid": "1de2ed69",
+  "courseCode": "PET201",
+  "courseTitle": "Introduction to Petroleum Engineering II",
+  "courseUnit": 3
+}
+###
+
+DELETE {{SPT_API_HostAddress}}/spt/c/CourseModel/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
+Content-Type: application/json
+{
+    "_CourseCode": "PET201",
+    "CourseDescript": "Introduction to Petroleum Engineering II"
+}
+###
+PATCH {{SPT_API_HostAddress}}/spt/c/CourseModel/edit
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
+Content-Type: application/json
+{
+    "CourseCode": "PET101",
+    "CourseTitle": "Introduction to Petroleum Engineering I",
+    "CourseUnit": 3
+}

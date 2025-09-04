@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using SPT_API.Data;
 using SPT_API.Data.DTOs;
@@ -140,21 +141,22 @@ namespace SPT_API.Services.StudentServices
             response.Message = "Login successful";
             response.studentID = student.uniqueUserId;
 
+            var key = Encoding.UTF8.GetBytes("whatthehellisthisthingsproblemjesustakecontrol"); // must match Program.cs exactly
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes("whatthehellisthisthingsproblemjesustakecontrol");
-            var nameClaimType = ClaimTypes.NameIdentifier;
-            var tokenDescriptor = new SecurityTokenDescriptor()
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(nameClaimType, student.uniqueUserId)
-                }),
+                new Claim(ClaimTypes.Name, student.uniqueUserId)}),
                 Expires = DateTime.UtcNow.AddDays(1),
+                NotBefore = DateTime.UtcNow,                // valid immediately
+                IssuedAt = DateTime.UtcNow,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            }; 
+            };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             response.token = tokenHandler.WriteToken(token);
-            
+
 
             return response;
         }

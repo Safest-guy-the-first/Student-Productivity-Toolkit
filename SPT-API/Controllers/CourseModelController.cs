@@ -2,34 +2,79 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SPT_API.Services.CourseServices;
+using SPT_API.Models;
+using SPT_API.Data.DTOs;
 
 namespace SPT_API.Controllers
 {
-    
-    [Route("spt_c/[controller]")]
+    [Authorize]
+    [Route("spt/c/[controller]")]
     [ApiController]
     public class CourseModelController : Controller
     {
         private readonly ICourseService _courseService;
         public CourseModelController(ICourseService courseService)
         {
-              _courseService = courseService;
+            _courseService = courseService;
         }
-        /*[Authorize]*/
+
+
         [HttpGet("courses")]
         public IActionResult GetAllCourses()
         {
-            var _cuuid = User.FindFirstValue(ClaimTypes.Name);
-            if (_cuuid == null) { return Unauthorized(new{ Message = "Hello"}); }
+            var _cuuid = User.FindFirstValue(ClaimTypes.Name); // <-- use NameIdentifier
+            if (string.IsNullOrEmpty(_cuuid))
+                return Unauthorized(new { Message = "User not authenticated or token missing" });
+
             var courses = _courseService.GetAllCourses(_cuuid);
-            if (!courses.Any()) { return NotFound(new { Message = "No Courses Found for the student"}); }
+            if (!courses.Any())
+                return NotFound(new { Message = "No Courses Found for the student" });
+
             return Ok(courses);
         }
 
-        [HttpGet("courseCode")]
-        public IActionResult GetCourseByCourseCode()
+        [HttpGet("courses/{courseCode}")]
+        public IActionResult GetCourseByCourseCode([FromRoute] string courseCode)
         {
-            return null;
-        } 
+            var _cuuid = User.FindFirstValue(ClaimTypes.Name);
+            if (string.IsNullOrEmpty(_cuuid))
+                return Unauthorized(new { Message = "User not authenticated or token missing" });
+            var course = _courseService.GetCourse(courseCode, _cuuid);
+            return Ok(course);
+        }
+        [HttpPost("addcourse")]
+        public IActionResult AddCourse([FromBody] CourseModel course)
+        {
+            var _cuuid = User.FindFirstValue(ClaimTypes.Name);
+            if (string.IsNullOrEmpty(_cuuid))
+                return Unauthorized(new { Message = "User not authenticated or token missing" });
+            var addedCourse = _courseService.AddCourse(course,_cuuid);
+            return CreatedAtAction(nameof(GetCourseByCourseCode), new {courseCode = addedCourse.CourseCode}, addedCourse);
+        }
+        [HttpDelete("delete")]
+        public IActionResult DeleteCourse([FromBody] DeleteCourseDTO deleteReq)
+        {
+            var _cuuid = User.FindFirstValue(ClaimTypes.Name);
+            if (string.IsNullOrEmpty(_cuuid))
+                return Unauthorized(new { Message = "User not authenticated or token missing" });
+           
+            var delCourse = _courseService.DeleteCourse(deleteReq, _cuuid);
+            if(delCourse.success == false) { return BadRequest(delCourse);}
+            return NoContent();
+        }
+
+        [HttpPatch("edit")]
+        public IActionResult EditCourse([FromBody] EditCourseDTO editReq)
+        {
+            var _cuuid = User.FindFirstValue(ClaimTypes.Name);
+            if (string.IsNullOrEmpty(_cuuid))
+                return Unauthorized(new { Message = "User not authenticated or token missing" });
+            var editedCourse = _courseService.EditCourse(editReq, _cuuid);
+            if(editedCourse == null)
+            {
+                return BadRequest(editReq);
+            }
+            return Ok(editedCourse);
+        }
     }
 }

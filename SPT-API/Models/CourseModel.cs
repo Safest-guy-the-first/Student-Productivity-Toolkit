@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SPT_API.Models
 {
@@ -10,7 +9,7 @@ namespace SPT_API.Models
         public string? CourseCode {  get; set; } = null;
         public string? CourseTitle { get; set; } = null;
         public uint? CourseUnit { get; set; } = null;
-        public StudentModel? Student { get; set; }
+        public StudentModel? Student { get; set; } = null;
 
     }
 }

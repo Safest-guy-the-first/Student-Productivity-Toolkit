@@ -20,8 +20,9 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 //JWT CONFIG
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = "Bearer";
-    options.DefaultChallengeScheme = "Bearer";
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
     .AddJwtBearer(options =>
     {
@@ -33,21 +34,13 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes("whatthehellisthisthingsproblemjesustakecontrol")),
-            NameClaimType = ClaimTypes.NameIdentifier
-        };
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine($"JWT error: {context.Exception.Message}");
-                return Task.CompletedTask;
-            }
+            NameClaimType = ClaimTypes.Name
         };
 
     });
+builder.Services.AddAuthorization();
 
 
-builder.Logging.AddConsole();
 
 builder.Services.AddControllers();
 
@@ -68,9 +61,12 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
