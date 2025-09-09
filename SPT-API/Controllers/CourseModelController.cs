@@ -20,13 +20,13 @@ namespace SPT_API.Controllers
 
 
         [HttpGet("courses")]
-        public IActionResult GetAllCourses()
+        public async Task<IActionResult> GetAllCourses()
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name); // <-- use NameIdentifier
             if (string.IsNullOrEmpty(_cuuid))
                 return Unauthorized(new { Message = "User not authenticated or token missing" });
 
-            var courses = _courseService.GetAllCourses(_cuuid);
+            var courses = await _courseService.GetAllCourses(_cuuid);
             if (!courses.Any())
                 return NotFound(new { Message = "No Courses Found for the student" });
 
@@ -34,7 +34,7 @@ namespace SPT_API.Controllers
         }
 
         [HttpGet("courses/{courseCode}")]
-        public IActionResult GetCourseByCourseCode([FromRoute] string courseCode)
+        public async Task<IActionResult> GetCourseByCourseCode([FromRoute] string courseCode)
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);
             if (string.IsNullOrEmpty(_cuuid))
@@ -43,28 +43,28 @@ namespace SPT_API.Controllers
             return Ok(course);
         }
         [HttpPost("addcourse")]
-        public IActionResult AddCourse([FromBody] CourseModel course)
+        public async Task<IActionResult> AddCourse([FromBody] CourseModel course)
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);
             if (string.IsNullOrEmpty(_cuuid))
                 return Unauthorized(new { Message = "User not authenticated or token missing" });
-            var addedCourse = _courseService.AddCourse(course,_cuuid);
+            var addedCourse = await _courseService.AddCourse(course, _cuuid);
             return CreatedAtAction(nameof(GetCourseByCourseCode), new {courseCode = addedCourse.CourseCode}, addedCourse);
         }
         [HttpDelete("delete")]
-        public IActionResult DeleteCourse([FromBody] DeleteCourseDTO deleteReq)
+        public async Task<IActionResult> DeleteCourse([FromBody] DeleteCourseDTO deleteReq)
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);
             if (string.IsNullOrEmpty(_cuuid))
                 return Unauthorized(new { Message = "User not authenticated or token missing" });
            
-            var delCourse = _courseService.DeleteCourse(deleteReq, _cuuid);
+            var delCourse = await _courseService.DeleteCourse(deleteReq, _cuuid);
             if(delCourse.success == false) { return BadRequest(delCourse);}
             return NoContent();
         }
 
         [HttpPatch("edit")]
-        public IActionResult EditCourse([FromBody] EditCourseDTO editReq)
+        public async Task<IActionResult> EditCourse([FromBody] EditCourseDTO editReq)
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);
             if (string.IsNullOrEmpty(_cuuid))

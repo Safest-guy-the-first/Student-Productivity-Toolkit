@@ -42,7 +42,7 @@ Content-Type: application/json
 }
 ###
 GET {{SPT_API_HostAddress}}/spt/c/CourseModel/courses
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU3MzQ3MzM2LCJleHAiOjE3NTc0MzM3MzYsImlhdCI6MTc1NzM0NzMzNn0.hr_AyK-cSdm3L2tMckWNCQfOPHYPjpUx_ULfbvqDhFg
 Accept: application/json
 
 
@@ -54,13 +54,14 @@ Accept: application/json
 
 ###
 POST {{SPT_API_HostAddress}}/spt/c/CourseModel/addcourse
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU3MzQ3MzM2LCJleHAiOjE3NTc0MzM3MzYsImlhdCI6MTc1NzM0NzMzNn0.hr_AyK-cSdm3L2tMckWNCQfOPHYPjpUx_ULfbvqDhFg
 Content-Type: application/json
 {
   "cuuid": "1de2ed69",
-  "courseCode": "PET201",
-  "courseTitle": "Introduction to Petroleum Engineering II",
-  "courseUnit": 3
+  "courseCode": "PET401",
+  "courseTitle": "Introduction to Petroleum Engineering III",
+  "courseUnit": 3,
+  "Grade": "A"
 }
 ###
 
@@ -80,3 +81,9 @@ Content-Type: application/json
     "CourseTitle": "Introduction to Petroleum Engineering I",
     "CourseUnit": 3
 }
+###
+GET {{SPT_API_HostAddress}}/spt/g/see
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU3MzQ3MzM2LCJleHAiOjE3NTc0MzM3MzYsImlhdCI6MTc1NzM0NzMzNn0.hr_AyK-cSdm3L2tMckWNCQfOPHYPjpUx_ULfbvqDhFg
+Accept: application/json
+
+###

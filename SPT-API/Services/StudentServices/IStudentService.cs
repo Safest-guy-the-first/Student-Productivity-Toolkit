@@ -6,12 +6,12 @@ namespace SPT_API.Services.StudentServices
 {
     public interface IStudentService
     {
-        IEnumerable<StudentModel> GetAllStudents();
-        StudentModel GetStudentByParams(string FirstName, string LastName);
-        StudentModel GetStudentByUsername(string username);
-        StudentModel AddStudent(StudentModel student, IPasswordService passwordService);
-        DeleteUserResponse DeleteStudent(DeleteUserDTO deleteReq, IPasswordService passwordService);
-        StudentModel EditStudent(string userName, updateStudentDTO edit);
-        LoginResponseDTO Login(LoginRequestDTO loginReq, IPasswordService passwordService);
+        Task<IEnumerable<StudentModel>> GetAllStudents();
+        Task<StudentModel> GetStudentByParams(string FirstName, string LastName);
+        Task<StudentModel> GetStudentByUsername(string username);
+        Task<StudentModel> AddStudent(StudentModel student, IPasswordService passwordService);
+        Task<DeleteUserResponse> DeleteStudent(DeleteUserDTO deleteReq, IPasswordService passwordService);
+        Task<StudentModel> EditStudent(string userName, updateStudentDTO edit);
+        Task<LoginResponseDTO> Login(LoginRequestDTO loginReq, IPasswordService passwordService);
     }
 }

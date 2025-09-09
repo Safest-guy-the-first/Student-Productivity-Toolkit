@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using SPT_API.Data;
@@ -21,22 +22,24 @@ namespace SPT_API.Services.StudentServices
             _db = db;
         }
 
-        public IEnumerable<StudentModel> GetAllStudents()
+        public async Task<IEnumerable<StudentModel>> GetAllStudents()
         {
-            return _db.StudentTable.ToList();
+            var students = await _db.StudentTable.ToListAsync();
+            return students;
         }
 
-        public StudentModel GetStudentByParams(string FirstName, string LastName)
+        public async Task<StudentModel> GetStudentByParams(string FirstName, string LastName)
         {
-            return _db.StudentTable.FirstOrDefault(s => s.firstName == FirstName && s.lastName == LastName);
+            return await _db.StudentTable.FirstOrDefaultAsync(s => s.firstName == FirstName && s.lastName == LastName);
         }
 
-        public StudentModel GetStudentByUsername(string username)
+        public async Task<StudentModel> GetStudentByUsername(string username)
         {
-            return _db.StudentTable.FirstOrDefault(s => s.studentUserName == username);
+            var studentByUser = await _db.StudentTable.FirstOrDefaultAsync(s => s.studentUserName == username);
+            return studentByUser;
         }
 
-        public StudentModel AddStudent(StudentModel student, IPasswordService passwordService)
+        public async Task<StudentModel> AddStudent(StudentModel student, IPasswordService passwordService)
         {
             var hashedPassword = passwordService.HashPassword(student.studentPassword);
 
@@ -46,24 +49,23 @@ namespace SPT_API.Services.StudentServices
                student.firstName.Substring(0, 2).ToLower() + student.lastName.Substring(0, 2).ToLower() + student.uniqueUserId.Substring(5, 2).ToLower();
 
 
-            _db.StudentTable.Add(student);
-            _db.SaveChanges();
+            _db.StudentTable.AddAsync(student);
+            _db.SaveChangesAsync();
 
             return student;
         }
 
-        public DeleteUserResponse DeleteStudent(DeleteUserDTO deleteReq, IPasswordService passwordService)
+        public async Task<DeleteUserResponse> DeleteStudent(DeleteUserDTO deleteReq, IPasswordService passwordService)
         {
-            var acpass = _db.StudentTable.FirstOrDefault(s => s.studentUserName == deleteReq._studentUsername);
+            var acpass = await _db.StudentTable.FirstOrDefaultAsync(s => s.studentUserName == deleteReq._studentUsername);
             DeleteUserResponse delResponse = new DeleteUserResponse();
-
             if (!passwordService.VerifyPassword(deleteReq._studentPassword, acpass.studentPassword))
             {
                 delResponse.Success = false;
                 delResponse.Message = "Invalid Password";
                 return delResponse;
             }
-            var studentDelReq = _db.StudentTable.FirstOrDefault(s => s.firstName == deleteReq._firstName
+            var studentDelReq = _db.StudentTable.FirstOrDefaultAsync(s => s.firstName == deleteReq._firstName
            && s.lastName == deleteReq._lastName
            && s.studentUserName == deleteReq._studentUsername
            && s.studentPassword == deleteReq._studentPassword);
@@ -74,18 +76,18 @@ namespace SPT_API.Services.StudentServices
                 delResponse.Message = "Student not Found";
                 return delResponse;
             }
-
+            
             _db.Remove(studentDelReq);
-            _db.SaveChanges();
+            _db.SaveChangesAsync();
 
             delResponse.Success = true;
             delResponse.Message = "Success";
             return delResponse;
         }
 
-        public StudentModel EditStudent(string userName, updateStudentDTO edit)
+        public async Task<StudentModel> EditStudent(string userName, updateStudentDTO edit)
         {
-            var student = _db.StudentTable.FirstOrDefault(s => s.studentUserName == userName);
+            var student = await _db.StudentTable.FirstOrDefaultAsync(s => s.studentUserName == userName);
             if (student == null) { return null; }
 
             var studentType = typeof(StudentModel);
@@ -105,11 +107,11 @@ namespace SPT_API.Services.StudentServices
 
                 }
             }
-            _db.SaveChanges();
+            _db.SaveChangesAsync();
             return student;
         }
 
-        public LoginResponseDTO Login(LoginRequestDTO loginReq, IPasswordService passwordService)
+        public async Task<LoginResponseDTO> Login(LoginRequestDTO loginReq, IPasswordService passwordService)
         {
             var response = new LoginResponseDTO();
 
@@ -123,7 +125,7 @@ namespace SPT_API.Services.StudentServices
             }
 
            
-            var student = _db.StudentTable.FirstOrDefault(s =>
+            var student = await _db.StudentTable.FirstOrDefaultAsync(s =>
             (!string.IsNullOrEmpty(loginReq._UserName) && s.studentUserName == loginReq._UserName) ||
             (!string.IsNullOrEmpty(loginReq._Email) && s.email == loginReq._Email));
 
