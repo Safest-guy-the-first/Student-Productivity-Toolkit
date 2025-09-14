@@ -1,9 +1,5 @@
-﻿using System.Security.Cryptography.Pkcs;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-using SPT_API.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using SPT_API.Data.DTOs;
-using SPT_API.Migrations;
 using SPT_API.Models;
 using SPT_API.Services.Password;
 using SPT_API.Services.StudentServices;
@@ -37,10 +33,20 @@ namespace SPT_API.Controllers
             }
             return Ok(studentByParams);
         }
-        [HttpGet("search/{username}")]
+        [HttpGet("search1/{username}")]
         public async Task<ActionResult<StudentModel>> GetStudentByUsername([FromRoute] string username)
         {
             var studentByUserName = await _studentService.GetStudentByUsername(username);
+            if (studentByUserName == null)
+            {
+                return NotFound();
+            }
+            return Ok(studentByUserName);
+        }
+        [HttpGet("search2/{email}")]
+        public async Task<ActionResult<StudentModel>> GetStudentByEmail([FromRoute] string email)
+        {
+            var studentByUserName = await _studentService.GetStudentByUsername(email);
             if (studentByUserName == null)
             {
                 return NotFound();

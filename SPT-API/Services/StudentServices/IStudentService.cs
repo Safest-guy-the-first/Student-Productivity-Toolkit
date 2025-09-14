@@ -9,6 +9,7 @@ namespace SPT_API.Services.StudentServices
         Task<IEnumerable<StudentModel>> GetAllStudents();
         Task<StudentModel> GetStudentByParams(string FirstName, string LastName);
         Task<StudentModel> GetStudentByUsername(string username);
+        Task<StudentModel> GetStudentByEmail(string username);
         Task<StudentModel> AddStudent(StudentModel student, IPasswordService passwordService);
         Task<DeleteUserResponse> DeleteStudent(DeleteUserDTO deleteReq, IPasswordService passwordService);
         Task<StudentModel> EditStudent(string userName, updateStudentDTO edit);

@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using SPT_API.Data.DTOs;
+﻿using SPT_API.Data.DTOs;
+using SPT_API.Models;
+using SPT_API.Services.StudentServices;
 using System.Net.Http.Headers;
 
 namespace BlazorSPT.Services
@@ -10,27 +11,35 @@ namespace BlazorSPT.Services
         private string? _token;
         public AuthService(HttpClient httpClient)
         {
-                _httpClient = httpClient;
+            _httpClient = httpClient;
         }
+        public StudentModel? CurrentUser { get; private set; }
+
 
         public async Task<LoginResponseDTO> Login(LoginRequestDTO loginDto)
         {
-            LoginResponseDTO loginRes = new LoginResponseDTO();
             var response = await _httpClient.PostAsJsonAsync("/spt/StudentModel/login", loginDto);
+
             if (response.IsSuccessStatusCode)
             {
-                var result = response.Content.ReadFromJsonAsync<LoginResponseDTO>();
-                if(result.Result.Success == true && !string.IsNullOrEmpty(result.Result.token))
+                var result = await response.Content.ReadFromJsonAsync<LoginResponseDTO>();
+
+                if (result != null && result.Success && !string.IsNullOrEmpty(result.token))
                 {
-                    _token = result.Result.token;
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",_token);
+                    _token = result.token;
+                    _httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", _token);
+
+                    var currentuser = await _httpClient.GetFromJsonAsync<StudentModel>($"/spt/StudentModel/search1/{loginDto._UserName}");
+                    CurrentUser = currentuser;
+
                 }
-                return await result;    
+                return result ?? new LoginResponseDTO { Success = false, Message = "Empty response" };
             }
-            loginRes.Success = false;
-            loginRes.Message = "UnAuthorised";
-            return loginRes;
+
+            return new LoginResponseDTO { Success = false, Message = "UnAuthorised" };
         }
+
 
     }
 }

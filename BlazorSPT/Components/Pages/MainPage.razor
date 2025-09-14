@@ -1,0 +1,55 @@
+﻿@page "/main"
+@using SPT_API.Models
+@using BlazorSPT.Services
+
+<h3>MainPage</h3>
+<div>
+    <nav class="side-menu">
+        <ul>
+            <li><button class="menu-item">Home</button></li>
+            <li><button class="menu-item">Course Management</button></li>
+            <li><button class="menu-item">Attendance</button></li>
+        </ul>
+    </nav>
+
+
+    <section class="content">
+        <section class="content">
+            <div class="card">
+                <h2>User Information</h2>
+                <img src="images/logo.jpg" alt="profile" class="profile-pic" />
+                <div class="user-field">
+                    <label>Full Name:</label>
+                    <span>@User?.firstName @User?.lastName</span>
+                </div>
+
+                <div class="user-field">
+                    <label>Email:</label>
+                    <span>@User?.email</span>
+                </div>
+
+                <div class="user-field">
+                    <label>Department:</label>
+                    <span>@User?.department</span>
+                </div>
+
+                <div class="user-field">
+                    <label>Level:</label>
+                    <span>@User?.level</span>
+                </div>
+               
+            </div>
+        </section>
+    </section>
+</div>
+
+@code {
+    [Inject] private AuthService AuthService { get; set; } = default;
+
+    private StudentModel User;
+    protected override void OnInitialized()
+    {
+        User = AuthService.CurrentUser;
+    }
+
+}

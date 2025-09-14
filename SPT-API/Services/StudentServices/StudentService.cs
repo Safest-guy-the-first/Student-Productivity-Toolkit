@@ -1,9 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using SPT_API.Data;
 using SPT_API.Data.DTOs;
@@ -37,6 +35,11 @@ namespace SPT_API.Services.StudentServices
         {
             var studentByUser = await _db.StudentTable.FirstOrDefaultAsync(s => s.studentUserName == username);
             return studentByUser;
+        }
+        public async Task<StudentModel> GetStudentByEmail(string email)
+        {
+            var studentByEmail  = await _db.StudentTable.FirstOrDefaultAsync(s => s.email == email);
+            return studentByEmail;
         }
 
         public async Task<StudentModel> AddStudent(StudentModel student, IPasswordService passwordService)
