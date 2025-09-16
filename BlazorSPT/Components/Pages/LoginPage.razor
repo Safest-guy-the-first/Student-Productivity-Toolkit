@@ -36,8 +36,8 @@
             {
                 <div class="form-group">
                     <InputText @bind-Value="LoginRequest._UserName"
-                               class="form-control"
-                               placeholder="Username" />
+                    class="form-control"
+                    placeholder="Username" />
                     <ValidationMessage For="@(() => LoginRequest._UserName)" class="text-danger" />
                 </div>
             }
@@ -59,8 +59,23 @@
 
             <button type="submit" class="btn-signin">Sign in</button>
         </EditForm>
-        <p>@errorMessage</p>
-
+        <p class = "text-danger">@errorMessage</p>
+        @if (isLoading)
+        {
+            <div class="loading-overlay">
+                <p>Loading... please wait</p>
+            </div>
+        }else if(isSuccess){
+            <div class="success-overlay">
+                <p>✅ Login successful!</p>
+            </div>
+        } else if (uns)
+        {
+            <div class="success-overlay">
+                <p>❌ Login Unsuccessful!</p>
+               
+            </div>
+        }
         <div class="signup-link">
             <span>Don't have an account?</span>
             <a href="/signup">Sign up</a>
@@ -74,8 +89,11 @@
     private bool ShowPassword = false;
     private string errorMessage = string.Empty;
     private string activeTab = "email";
+    private bool isLoading = false;
+    private bool isSuccess = false;
+    private bool uns = false;
 
-    
+
 
 
 
@@ -92,11 +110,27 @@
     private async Task HandleLogin()
     {
         var result = await AuthService.Login(LoginRequest);
+
         if (result.Success == false)
         {
+            isSuccess = false;
+            isLoading = false;
+            uns = true;
             errorMessage = result.Message;
+            StateHasChanged();
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            uns = false;
         }
-        if (result.Success == true) Navigation.NavigateTo("/main");
-        
+        if (result.Success == true) 
+        { 
+            isSuccess = true;
+            isLoading = false;
+            StateHasChanged();
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            
+            
+            Navigation.NavigateTo("/main"); 
+        }
+
     }
 }
