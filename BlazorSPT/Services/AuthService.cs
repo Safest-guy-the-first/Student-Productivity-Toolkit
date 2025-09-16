@@ -37,9 +37,22 @@ namespace BlazorSPT.Services
                 return result ?? new LoginResponseDTO { Success = false, Message = "Empty response" };
             }
 
-            return new LoginResponseDTO { Success = false, Message = "UnAuthorised" };
+            return new LoginResponseDTO { Success = false, Message = "Unauthorised" };
         }
-
+        public async Task<StudentModel> SignUp(StudentModel signUpreq)
+        {
+            StudentModel createdStudent = new();
+            var response = await _httpClient.PostAsJsonAsync("/spt/StudentModel/create", signUpreq);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<StudentModel>();
+                Console.WriteLine(result.uniqueUserId);
+                var raw = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Raw response: {raw}");
+                createdStudent = result;
+            }
+            return createdStudent;
+        }
 
     }
 }

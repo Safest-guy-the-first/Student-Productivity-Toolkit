@@ -10,19 +10,37 @@
     <div class="login-box">
         <h2 class="login-title">Sign in</h2>
 
+        <div class="tab-container">
+            <button class="tab-button @(activeTab == "email" ? "active" : "")"
+            @onclick=@(() => SwitchTab("email"))>
+                Login with Email
+            </button>
+
+            <button class="tab-button @(activeTab == "username" ? "active" : "")"
+            @onclick=@(() => SwitchTab("username"))>
+                Login with Username
+            </button>
+        </div>
         <EditForm Model="@LoginRequest" OnValidSubmit="HandleLogin" FormName="LoginForm">
             <DataAnnotationsValidator/>
-            <div class="form-group">
-                <InputText @bind-Value="LoginRequest._UserName"
-                class="form-control"
-                placeholder="Username" />
-            </div>
-
-            <div class="form-group">
-                <InputText @bind-Value="LoginRequest._Email"
-                class="form-control"
-                placeholder="Email" />
-            </div>
+            @if(activeTab == "email")
+            {
+                <div class="form-group">
+                    <InputText @bind-Value="LoginRequest._Email"
+                    class="form-control"
+                    placeholder="Email" />
+                    <ValidationMessage For="@(() => LoginRequest._Email)" class="text-danger" />
+                </div>
+            }
+            else if (activeTab == "username")
+            {
+                <div class="form-group">
+                    <InputText @bind-Value="LoginRequest._UserName"
+                               class="form-control"
+                               placeholder="Username" />
+                    <ValidationMessage For="@(() => LoginRequest._UserName)" class="text-danger" />
+                </div>
+            }
 
             <div class="form-group password-field">
                 <input key="type" @bind="LoginRequest._Password"
@@ -32,7 +50,7 @@
                 <button type="button" class="btn-toggle" @onclick="TogglePass">
                     @(ShowPassword ? "hide" : "show")
                 </button>
-
+                <ValidationMessage For="@(() => LoginRequest._Password)" class="text-danger" />
             </div>
 
             <div class="forgot-password">
@@ -41,7 +59,7 @@
 
             <button type="submit" class="btn-signin">Sign in</button>
         </EditForm>
-
+        <p>@errorMessage</p>
 
         <div class="signup-link">
             <span>Don't have an account?</span>
@@ -53,20 +71,22 @@
 
 @code {
     private LoginRequestDTO LoginRequest = new();
-    private bool ShowPassword = true;
+    private bool ShowPassword = false;
     private string errorMessage = string.Empty;
+    private string activeTab = "email";
+
+    
 
 
 
 
-
-
-
-
+    private void SwitchTab(string tab)
+    {
+        activeTab = tab;
+    }
     public void TogglePass()
     {
         ShowPassword = !ShowPassword;
-        Console.WriteLine(ShowPassword);
     }
 
     private async Task HandleLogin()
@@ -76,6 +96,7 @@
         {
             errorMessage = result.Message;
         }
-        Navigation.NavigateTo("/main");
+        if (result.Success == true) Navigation.NavigateTo("/main");
+        
     }
 }

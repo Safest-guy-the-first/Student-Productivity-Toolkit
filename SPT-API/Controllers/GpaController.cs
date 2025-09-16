@@ -17,15 +17,14 @@ namespace SPT_API.Controllers
             _GpaService = GpaService;
         }
 
-        [HttpGet("see")]
+        /*[HttpGet("see")]
         public IActionResult see()
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);
             var see = _GpaService.coursesAndGrades(_cuuid);
             if (see == null || !see.Any()) { return NotFound(); }
-            Console.WriteLine(see[1].Item1);
             return Ok(see); //works well but it doesnt seriaize properly
 
-        }
+        }*/
     }
 }

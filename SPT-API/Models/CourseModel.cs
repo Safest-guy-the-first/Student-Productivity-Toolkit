@@ -10,7 +10,7 @@ namespace SPT_API.Models
         public string? CourseTitle { get; set; } = null;
         public uint? CourseUnit { get; set; } = null;
 
-        public char? Grade { get; set; } = null ;
+        public char Grade { get; set; } = 'F';
 
         public StudentModel? Student { get; set; } = null;
 

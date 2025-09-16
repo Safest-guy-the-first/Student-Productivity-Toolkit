@@ -18,6 +18,7 @@ Content-Type: application/json
   "lastName": "Oyem",
   "department": "Petroleum Engineering",
   "level": "400",
+  "studentUserName":"mmmmmmmm",
   "studentPassword":"Vision@cu",
   "uniqueUserId": "m"
 }
@@ -86,7 +87,7 @@ Content-Type: application/json
 }
 ###
 GET {{SPT_API_HostAddress}}/spt/g/see
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU3MzQ3MzM2LCJleHAiOjE3NTc0MzM3MzYsImlhdCI6MTc1NzM0NzMzNn0.hr_AyK-cSdm3L2tMckWNCQfOPHYPjpUx_ULfbvqDhFg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU4MDIyNzQ1LCJleHAiOjE3NTgxMDkxNDUsImlhdCI6MTc1ODAyMjc0NX0.eWYXCeWnUI-FXwolI6BZ0pdjWxWT4G8vwwlxQAxcUCk
 Accept: application/json
 
 ###

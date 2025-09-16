@@ -48,8 +48,11 @@ namespace SPT_API.Services.StudentServices
 
             student.studentPassword = hashedPassword;
             student.uniqueUserId = Guid.NewGuid().ToString("N").Substring(0, 8);
-            student.studentUserName =
+            if (string.IsNullOrEmpty(student.studentUserName)) {
+                student.studentUserName =
                student.firstName.Substring(0, 2).ToLower() + student.lastName.Substring(0, 2).ToLower() + student.uniqueUserId.Substring(5, 2).ToLower();
+            }
+            
 
 
             _db.StudentTable.AddAsync(student);

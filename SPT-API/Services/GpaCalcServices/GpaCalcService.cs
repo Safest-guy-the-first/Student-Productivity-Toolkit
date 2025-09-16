@@ -12,14 +12,16 @@ namespace SPT_API.Services.GpaCalcServices
         }
 
 
-        public List<(string, uint?, char?)> coursesAndGrades(string _cuuid)
+        public void coursesAndGrades(string _cuuid)
         {
-            var coursesandgrades = _db.CourseTable
-            .Where(c => c.cuuid == _cuuid)
-            .Select(c => new ValueTuple<string, uint?, char?>(c.CourseCode, c.CourseUnit, c.Grade))
-            .ToList();
-
-            return coursesandgrades;
+            Dictionary<char,double> gradePointValues = new Dictionary<char, double>
+            {
+                {'A',5.0d },
+                {'B',4.0d }
+            };
+            var coursesAndGrades = _db.CourseTable.Where(c => c.cuuid == _cuuid)
+                .GroupBy(c => c.Grade)
+                .ToDictionary(g => g.Key,g => g.Select(x => x.CourseUnit).ToList() );
 
         }
     }
