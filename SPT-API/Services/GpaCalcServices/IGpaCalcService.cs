@@ -2,7 +2,7 @@
 {
     public interface IGpaCalcService
     {
-        /*List<(string, uint?, char?)> coursesAndGrades(string _cuuid);*/
+        double CalculateGPA(string _cuuid);
 
     }
 }

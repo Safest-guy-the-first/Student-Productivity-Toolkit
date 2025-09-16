@@ -86,7 +86,7 @@ Content-Type: application/json
     "CourseUnit": 3
 }
 ###
-GET {{SPT_API_HostAddress}}/spt/g/see
+GET {{SPT_API_HostAddress}}/spt/g/calculategpa
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU4MDIyNzQ1LCJleHAiOjE3NTgxMDkxNDUsImlhdCI6MTc1ODAyMjc0NX0.eWYXCeWnUI-FXwolI6BZ0pdjWxWT4G8vwwlxQAxcUCk
 Accept: application/json
 
