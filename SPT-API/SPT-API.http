@@ -78,7 +78,7 @@ Content-Type: application/json
 }
 ###
 PATCH {{SPT_API_HostAddress}}/spt/c/CourseModel/edit
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU2OTc2NjU3LCJleHAiOjE3NTcwNjMwNTcsImlhdCI6MTc1Njk3NjY1N30.7e69zx98YyEiHR7T0lgOMuZaLnPSPunToFqU9xEoYpA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU4MTAyNzYxLCJleHAiOjE3NTgxODkxNjEsImlhdCI6MTc1ODEwMjc2MX0.Qo8LqcoG3hFo55_oDuFFsV85P3CmwV3MH3kfFyg0jqo
 Content-Type: application/json
 {
     "CourseCode": "PET101",
@@ -87,7 +87,7 @@ Content-Type: application/json
 }
 ###
 GET {{SPT_API_HostAddress}}/spt/g/calculategpa
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU4MDIyNzQ1LCJleHAiOjE3NTgxMDkxNDUsImlhdCI6MTc1ODAyMjc0NX0.eWYXCeWnUI-FXwolI6BZ0pdjWxWT4G8vwwlxQAxcUCk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU4MTAyNzYxLCJleHAiOjE3NTgxODkxNjEsImlhdCI6MTc1ODEwMjc2MX0.Qo8LqcoG3hFo55_oDuFFsV85P3CmwV3MH3kfFyg0jqo
 Accept: application/json
 
 ###

@@ -17,7 +17,7 @@ namespace SPT_API.Controllers
             _GpaService = GpaService;
         }
 
-        [HttpGet("/calculategpa")]
+        [HttpGet("calculategpa")]
         public IActionResult CalcGPA() 
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);

@@ -6,7 +6,7 @@
         public string? lastName { get; set; }
         public string? department { get; set; }
         public string? level { get; set; }
-        public uint? _numLevel { get; set; }
+        public string? school { get; set; }
         public string? email { get; set; }
     }
 }

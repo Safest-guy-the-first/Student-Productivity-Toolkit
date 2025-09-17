@@ -34,7 +34,7 @@ namespace SPT_API.Services.GpaCalcServices
             {
                 if (gradesAndUnits.TryGetValue(grade,out var gradeCourseUnits))
                 {
-                    var gradeUnits = gradeCourseUnits.Sum(c=>c??0);
+                    var gradeUnits = gradeCourseUnits.Sum(c => (uint?)c ?? 0u);
                     totalWeightedPoints += gradeUnits * gradePointValues[grade];
                     totalUnits += (int)gradeUnits;
                 }

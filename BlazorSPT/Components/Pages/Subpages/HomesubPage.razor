@@ -1,0 +1,40 @@
+﻿@using SPT_API.Models
+@using BlazorSPT.Services
+
+<div class="cards">
+    <h2>User Information</h2>
+    <img src="images/default profile pic.png" alt="profile" class="profile-pic" />
+    <div class="user-field">
+        <label>Full Name: </label>
+        <span>@User?.firstName @User?.lastName</span>
+    </div>
+
+    <div class="user-field">
+        <label>Email: </label>
+        <span>@User?.email</span>
+    </div>
+
+    <div class="user-field">
+        <label>Department: </label>
+        <span>@User?.department</span>
+    </div>
+
+    <div class="user-field">
+        <label>Level: </label>
+        <span>@User?.level</span>
+    </div>
+
+    <div class="user-field">
+        <label>School: </label>
+        <span>@User?.School</span>
+    </div>
+</div>
+@code {
+    [Inject] private AuthService AuthService { get; set; } = default;
+
+    private StudentModel User;
+    protected override void OnInitialized()
+    {
+        User = AuthService.CurrentUser;
+    }
+}

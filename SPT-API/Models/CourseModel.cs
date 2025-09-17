@@ -8,9 +8,9 @@ namespace SPT_API.Models
         [Required]public string? cuuid {  get; set; } = null;
         public string? CourseCode {  get; set; } = null;
         public string? CourseTitle { get; set; } = null;
-        public uint? CourseUnit { get; set; } = null;
+        public uint CourseUnit { get; set; } = 0;
 
-        public char Grade { get; set; } = 'F';
+        public char? Grade { get; set; } = 'F';
 
         public StudentModel? Student { get; set; } = null;
 
