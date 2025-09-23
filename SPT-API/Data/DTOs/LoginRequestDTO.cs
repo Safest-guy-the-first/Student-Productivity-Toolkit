@@ -10,11 +10,11 @@ namespace SPT_API.Data.DTOs
         public string? _UserName { get; set; } = null;
         
         [Required(ErrorMessage = "Password is required")]
-        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "{0} cannot contain special characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9_@]*$", ErrorMessage = "{0} cannot contain special characters.")]
         public string _Password { get; set; } = null;
        
         [EmailAddress(ErrorMessage = "Invalid email format")]
-        [RegularExpression(@"^[a-zA-Z0-9\@\.\-]*$", ErrorMessage = "{0} cannot contain special characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9\.\-@]*$", ErrorMessage = "{0} cannot contain special characters.")]
         public string? _Email { get; set; } = null;
 
 

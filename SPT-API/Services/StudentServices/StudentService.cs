@@ -123,7 +123,7 @@ namespace SPT_API.Services.StudentServices
 
             
             if (string.IsNullOrWhiteSpace(loginReq._Password) ||
-            (string.IsNullOrWhiteSpace(loginReq._UserName) && string.IsNullOrWhiteSpace(loginReq._Email)))
+            (string.IsNullOrWhiteSpace(loginReq._UserName) && string.IsNullOrWhiteSpace(loginReq._Email) == true))
             {
                 response.Success = false;
                 response.Message = "Username/Email or Password is required";
@@ -132,8 +132,8 @@ namespace SPT_API.Services.StudentServices
 
            
             var student = await _db.StudentTable.FirstOrDefaultAsync(s =>
-            (!string.IsNullOrEmpty(loginReq._UserName) && s.studentUserName == loginReq._UserName) ||
-            (!string.IsNullOrEmpty(loginReq._Email) && s.email == loginReq._Email));
+            (string.IsNullOrEmpty(loginReq._UserName) ==false && s.studentUserName == loginReq._UserName) ||
+            (string.IsNullOrEmpty(loginReq._Email) == false && s.email == loginReq._Email));
 
 
            

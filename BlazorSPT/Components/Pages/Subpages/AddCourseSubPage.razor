@@ -1,0 +1,83 @@
+﻿@using SPT_API.Models
+@inject BlazorSPT.Services.CourseService courseService
+@using BlazorSPT.Services;
+
+
+
+<div class="modal-overlay">
+    <div class="modal-box">
+        <h2> Add Course</h2>
+        <EditForm Model="@addedCourse" OnValidSubmit="AddCourse" FormName="AddCourse">
+            <div class="f-g">
+                <InputText @bind-Value="addedCourse.CourseCode"
+                class="form-control"
+                placeholder="Course Code" />
+            </div>
+            <div class="f-g">
+                <InputText @bind-Value="addedCourse.CourseTitle"
+                class="form-control"
+                placeholder="Course Title" />
+            </div>
+            <div class="f-g">
+                <InputSelect @bind-Value="grade" class="form-control">
+                    <option value="">-- Select Grade --</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="S">S (Safe / No grade yet)</option>
+                </InputSelect>
+            </div>
+            <div class="f-g">
+                <InputNumber @bind-Value="cunit"
+                class="form-control"
+                placeholder="Course unit" />
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Add
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick=CloseForm>
+                    <i class="bi bi-x-circle"></i> Cancel
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter] public CourseModel addedCourse { get; set; }
+    [Parameter] public StudentModel User { get; set; }
+    [Parameter] public EventCallback<CourseModel> OnCourseAdded { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+
+
+    private int cunit;
+    private string grade;
+
+
+
+
+    private async void AddCourse()
+    {
+        addedCourse.Grade = (char)grade[0];
+        addedCourse.cuuid = User.uniqueUserId;
+        addedCourse.CourseUnit = (uint)cunit;
+        await OnCourseAdded.InvokeAsync(addedCourse);
+        StateHasChanged();
+        addedCourse = new CourseModel();
+        StateHasChanged();
+    }
+    private async void CloseForm()
+    {
+        cunit = 0;
+        addedCourse = new CourseModel();
+        await OnCancel.InvokeAsync();
+        StateHasChanged();
+    }
+}

@@ -2,6 +2,7 @@
 @using SPT_API.Models
 @using BlazorSPT.Services
 @using BlazorSPT.Components.Pages.Subpages
+@inject NavigationManager Navigation;
 
 <header class="top-bar">
     <div class="logo">SPT</div>
@@ -13,7 +14,7 @@
             <div class="dropdown-content">
                 <a href="/main" onclick=@(() => SetView("home"))>Home</a>
                 <a href="/settings">Settings</a>
-                <a href="/logout">Logout</a>
+                <a href="" onclick=@(Logout)>Logout</a>
             </div>
         </div>
     </div>
@@ -43,7 +44,7 @@
                     break;
                 case "attendance":
                     <p> attendance</p>
-                break;
+                    break;
                 case "settings":
                     <p> settings</p>
                     break;
@@ -55,7 +56,23 @@
 
 @code {
     private string activeView = "home";
+    [Inject] private AuthService AuthService { get; set; } = default;
 
+    private StudentModel User;
+
+
+
+    protected override void OnInitialized()
+    {
+        User = AuthService.CurrentUser;
+    }
 
     void SetView(string view) => activeView = view;
+
+    async Task Logout()
+    {
+        AuthService.Logout(User.uniqueUserId);
+        Navigation.NavigateTo("/");
+    } 
+
 }

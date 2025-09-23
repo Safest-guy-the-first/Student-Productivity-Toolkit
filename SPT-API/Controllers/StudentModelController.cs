@@ -46,7 +46,7 @@ namespace SPT_API.Controllers
         [HttpGet("search2/{email}")]
         public async Task<ActionResult<StudentModel>> GetStudentByEmail([FromRoute] string email)
         {
-            var studentByUserName = await _studentService.GetStudentByUsername(email);
+            var studentByUserName = await _studentService.GetStudentByEmail(email);
             if (studentByUserName == null)
             {
                 return NotFound();

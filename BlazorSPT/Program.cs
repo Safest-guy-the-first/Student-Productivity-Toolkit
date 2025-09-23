@@ -12,6 +12,7 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri(" http://localhost:5119/")
 });
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<CourseService>();
 
 
 var app = builder.Build();

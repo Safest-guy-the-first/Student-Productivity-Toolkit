@@ -41,7 +41,7 @@ Content-Type: application/json
 POST {{SPT_API_HostAddress}}/spt/StudentModel/login
 Content-Type: application/json
 {
-    "_UserName": "daoyd6",
+    "_Email": "m@m.m",
     "_Password": "Vision@cu"
 }
 ###
