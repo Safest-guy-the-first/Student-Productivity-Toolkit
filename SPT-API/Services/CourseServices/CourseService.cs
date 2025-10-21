@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using SPT_API.Data;
 using SPT_API.Data.DTOs;
 using SPT_API.Models;
@@ -28,26 +29,15 @@ namespace SPT_API.Services.CourseServices
         public async Task<CourseModel> AddCourse(CourseModel course, string _cuuid)
         {
             course.cuuid = _cuuid;
-            _db.CourseTable.AddAsync(course);
-            _db.SaveChangesAsync();
+            await _db.CourseTable.AddAsync(course);
+            await _db.SaveChangesAsync();
             return course;
         }
-        public async Task<DeleteCourseResponse> DeleteCourse(DeleteCourseDTO deleteReq, string _cuuid)
+        public async Task DeleteCourse(string _cuuid, string CourseCodetoDel)
         {
-            DeleteCourseResponse deleteCourseResponse = new DeleteCourseResponse();
-            var course = await _db.CourseTable.FirstOrDefaultAsync(c => c.cuuid == _cuuid && c.CourseCode == deleteReq._CourseCode && c.CourseTitle == deleteReq.CourseDescript);
-            if (course == null)
-            {
-                deleteCourseResponse.success = false;
-                deleteCourseResponse.message = "This Course Doesn't Exist";
-                return deleteCourseResponse;
-            }
-
-            _db.CourseTable.Remove(course);
-            _db.SaveChangesAsync();
-            deleteCourseResponse.success = true;
-            deleteCourseResponse.message = "Succesfully Deleted";
-            return deleteCourseResponse;
+            CourseModel DelReq = await GetCourse(CourseCodetoDel, _cuuid);
+            _db.CourseTable.Remove(DelReq);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<CourseModel> EditCourse(EditCourseDTO edit, string _cuuid)
@@ -77,7 +67,7 @@ namespace SPT_API.Services.CourseServices
                 }
             }
 
-            _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
             return course;
         }
     }

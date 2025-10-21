@@ -6,12 +6,13 @@ namespace SPT_API.Models
     public class StudentModel : IValidatableObject
     {
         [Key] public int id; //primary key
+        
         [Required(ErrorMessage = "{0} is required")]
         [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "{0} cannot contain special characters.")]
         public string firstName { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "{0} cannot contain special characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9\-]*$", ErrorMessage = "{0} cannot contain special characters.")]
         public string lastName { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]

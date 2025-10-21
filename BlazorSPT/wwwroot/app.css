@@ -239,7 +239,7 @@ button.btn-primary {
     gap: 5px;
 }
 .user-field {
-    background-color: var(--background) display: flex;
+    background-color: var(--background); display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
     padding: 8px 0;
@@ -666,8 +666,9 @@ button.btn-primary {
 
 /* Background overlay */
 .f-g{
-    background-color:var(--secondary);
+    background-color:var(--background);
     min-width:max-content;
+    width:350px;
 }
 .modal-overlay {
     position: fixed;

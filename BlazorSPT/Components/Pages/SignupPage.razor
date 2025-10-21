@@ -11,6 +11,7 @@
         <h2>Sign Up</h2>
         <EditForm Model="@student" OnValidSubmit="@CreateStudent" FormName="SignUpForm">
             <DataAnnotationsValidator />
+            <p>All fields are case sensitive</p>
             <div class="form-group">
                 <InputText @bind-Value="student.firstName"
                 class="form-control"

@@ -38,9 +38,10 @@
                     break;
                 case "coursemgmt":
                     <CoursemgmtsubPage/>
+                   
                     break;
                 case "gpa":
-                    <p> gpa</p>
+                    <GpaSubPage/>
                     break;
                 case "attendance":
                     <p> attendance</p>
@@ -71,8 +72,20 @@
 
     async Task Logout()
     {
-        AuthService.Logout(User.uniqueUserId);
+        if(User.uniqueUserId == null)
+        {
+            User.uniqueUserId = "dddddd";
+            AuthService.Logout(User.uniqueUserId);
+        }
+        if(User.uniqueUserId != null)
+        {
+            AuthService.Logout(User.uniqueUserId);
+        }
+        else
+        {
+            Navigation.NavigateTo("/");
+        }
+
         Navigation.NavigateTo("/");
     } 
-
 }

@@ -1,6 +1,11 @@
 ﻿@using SPT_API.Models
-@inject BlazorSPT.Services.CourseService courseService
 @using BlazorSPT.Services;
+@using SPT_API.Data.DTOs;
+@using BlazorSPT.Components.Pages.ReusableComponents;
+
+@inject BlazorSPT.Services.CourseService courseService
+
+
 
 <div class="course-wrapper">
     <div class="course-header">
@@ -21,6 +26,16 @@
     {
         <AddCourseSubPage addedCourse="addedCourse" User="User" OnCourseAdded="AddCourse" OnCancel="HandleCancel"/>
     } 
+   @*  @if(showDelpopup == true)
+    {
+        <ConfirmationModal OnConfirm=@(()=> {delConfirmation = true;})
+        OnCancel="()=> {delConfirmation = false;}">
+            <Message>
+                <p>Delete <strong>@delCourseCode</strong>?</p>
+                <p class="text-danger">This will remove it permanently</p>
+            </Message>
+        </ConfirmationModal>
+    } *@
 
 
     <div class="table-scroll">
@@ -36,9 +51,11 @@
             }
             else
             {
+
                 <table class="table table-striped course-table">
                     <thead>
                         <tr>
+                            <th> S/N</th>
                             <th>Course Code</th>
                             <th>Course Title</th>
                             <th>Course Unit</th>
@@ -47,18 +64,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var course in courses.OrderBy(c => c.CourseTitle))
+                        @{
+                            int sn = 1;
+                        }
+                        @foreach (var course in courses.OrderBy(c => c.CourseCode))
                         {
                             <tr>
+                                <td>@sn</td>
                                 <td>@course.CourseCode</td>
                                 <td>@course.CourseTitle</td>
                                 <td>@course.CourseUnit</td>
                                 <td>@course.Grade</td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning me-2" @onclick="() => EditCourse(course)">Edit</button>
-                                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteCourse(course)">Delete</button>
+                                    <button class="btn btn-sm btn-warning me-2" @onclick="() => EditCourse(course,sn)">Edit</button>
+                                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteCourse(course.CourseCode)">Delete</button>
                                 </td>
                             </tr>
+                            sn++;
                         }
                     </tbody>
                 </table>
@@ -72,55 +94,84 @@
 
 @code {
     private List<CourseModel>? courses;
+
     private CourseModel addedCourse = new();
 
 
-
-    private bool addSuccess = false;
-
     [Inject] private AuthService AuthService { get; set; } = default;
+
 
     private bool showAddForm = false;
 
+    private bool showDelpopup = false;
+
+    string delCourseCode = "";
+
+    bool delConfirmation = false;
+
     private string searchTerm = "";
 
-    private StudentModel User;
-
-    private int cunit;
-
-    private string grade;
+    private StudentModel? User;
 
 
 
 
 
 
-    private void EditCourse(object m)
-    {
 
-    }
-    private void DeleteCourse(object m)
+
+
+    private void EditCourse(object m, int count)
     {
 
     }
 
-
-
-
-    private async void AddCourse()
+    private async Task DeleteCourse(string courseCodeToDel)
     {
-        courseService.AddCourse(addedCourse);
+        // delCourseCode = courseCodeToDel;
+        // showDelpopup = true;
+        // await Task.Delay(TimeSpan.FromSeconds(5));
+        // Console.WriteLine($"showdelpopup:{showDelpopup}");
+        // Console.WriteLine($"del confirm1:{delConfirmation}");
+        // if (delConfirmation == true)
+        // {
+            // Console.WriteLine($"del confirm2:{delConfirmation}");
+            await courseService.DeleteCourse(courseCodeToDel);
+            await ReloadCourses();
+            showDelpopup = false; 
+            StateHasChanged();
+        // }
+        // if(delConfirmation == false)
+        // {
+        //     showDelpopup = false;
+        // }
+
+    }
+
+
+
+
+   
+    
+    private async Task AddCourse()
+    {
+        await courseService.AddCourse(addedCourse);
+        courses = await courseService.GetCourses();
         showAddForm = false;
-        ReloadCourses();
+
+
+        addedCourse = new();
         StateHasChanged();
     }
 
     public void HandleCancel()
     {
         showAddForm = false;
-
+        addedCourse = new();
         StateHasChanged();
     }
+
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -135,15 +186,21 @@
         }
 
     }
+
+
     protected async Task ReloadCourses()
     {
         courses = await courseService.GetCourses();
         StateHasChanged();
     }
+
+
     private async Task FilterCourses(ChangeEventArgs e)
     {
         searchTerm = e.Value?.ToString() ?? "";
         courses = await courseService.SearchCourses(searchTerm);
     }
+
+
 
 }

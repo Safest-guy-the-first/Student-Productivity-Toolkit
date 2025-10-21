@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using SPT_API.Data.DTOs;
 using SPT_API.Models;
 
 namespace BlazorSPT.Services
@@ -8,7 +7,7 @@ namespace BlazorSPT.Services
     {
         public StudentModel? currentUser {private get;  set; }
         private readonly HttpClient _httpClient;
-        private string? _token;
+        
         public CourseService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -16,8 +15,15 @@ namespace BlazorSPT.Services
         
         public async Task<List<CourseModel?>> GetCourses()
         {
-            var courses = await _httpClient.GetFromJsonAsync<List<CourseModel>>("/spt/c/CourseModel/courses");
-            if (courses == null) { return null; }
+            var courses = new List<CourseModel>();
+            try
+            {
+                courses = await _httpClient.GetFromJsonAsync<List<CourseModel>>("/spt/c/CourseModel/courses");
+            }
+            catch (Exception ex)
+            {
+                if (courses == null) { courses = new(); }
+            }
             return courses;
         }
         public async Task<List<CourseModel>> SearchCourses(string searchTerm)
@@ -32,7 +38,7 @@ namespace BlazorSPT.Services
             )
             .ToList();
         }
-        public async void AddCourse(CourseModel addCourse)
+        public async Task AddCourse(CourseModel addCourse)
         {
             try
             {
@@ -46,6 +52,20 @@ namespace BlazorSPT.Services
             }
             
             
+        }
+
+        public async Task DeleteCourse(string CourseCodeToDel)
+        {
+            try
+            {
+                var deleteRequest = await _httpClient.DeleteAsync($"/spt/c/CourseModel/delete/{CourseCodeToDel}");
+
+                deleteRequest.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Blazor SPT Delete Course Error: {ex.Message}");
+            }
         }
 
     }

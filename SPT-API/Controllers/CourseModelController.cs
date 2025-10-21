@@ -51,15 +51,14 @@ namespace SPT_API.Controllers
             var addedCourse = await _courseService.AddCourse(course, _cuuid);
             return CreatedAtAction(nameof(GetCourseByCourseCode), new {courseCode = addedCourse.CourseCode}, addedCourse);
         }
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteCourse([FromBody] DeleteCourseDTO deleteReq)
+        [HttpDelete("delete/{courseCodetoDel}")]
+        public async Task<IActionResult> DeleteCourse([FromRoute] string courseCodetoDel)
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);
             if (string.IsNullOrEmpty(_cuuid))
                 return Unauthorized(new { Message = "User not authenticated or token missing" });
-           
-            var delCourse = await _courseService.DeleteCourse(deleteReq, _cuuid);
-            if(delCourse.success == false) { return BadRequest(delCourse);}
+
+            await _courseService.DeleteCourse(_cuuid,courseCodetoDel);
             return NoContent();
         }
 
