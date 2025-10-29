@@ -2,15 +2,12 @@
 <! -- Confimation Modal-->
 
 
-@using SPT_API.Data.DTOs;
-
-
 <div class="modal-overlay">
     <div class="modal-box">
-        @* <h2>@Title</h2> *@
-        @* @Message *@
-        @* <button @onclick="Show" class="btn btn-success"> Confirm</button> *@
-        @* <button @onclick="Hide" class="btn btn-secondary"> Cancel</button> *@
+        <h2>@Title</h2> 
+         @Message 
+         <button @onclick="OnConfirm" class="btn btn-success"> Confirm</button> 
+         <button @onclick="OnCancel" class="btn btn-secondary"> Cancel</button>
 
     </div>
 </div>
@@ -23,6 +20,4 @@
     [Parameter] public RenderFragment Message { get; set; }
     [Parameter] public EventCallback OnConfirm { get; set; }
     [Parameter] public EventCallback OnCancel { get; set; }
-
-    
 }

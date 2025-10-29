@@ -24,18 +24,17 @@
 
     @if (showAddForm == true)
     {
-        <AddCourseSubPage addedCourse="addedCourse" User="User" OnCourseAdded="AddCourse" OnCancel="HandleCancel"/>
+        <AddCourseSubPage addedCourse="addedCourse" User="User" OnCourseAdded="AddCourse" OnCancel="HandleCancelForAddform"/>
     } 
-   @*  @if(showDelpopup == true)
+     @if(showDelpopup == true)
     {
-        <ConfirmationModal OnConfirm=@(()=> {delConfirmation = true;})
-        OnCancel="()=> {delConfirmation = false;}">
+        <ConfirmationModal OnConfirm="ExecuteDelete" OnCancel="ExecuteCancelForDelete">
             <Message>
                 <p>Delete <strong>@delCourseCode</strong>?</p>
                 <p class="text-danger">This will remove it permanently</p>
             </Message>
         </ConfirmationModal>
-    } *@
+    }
 
 
     <div class="table-scroll">
@@ -107,7 +106,6 @@
 
     string delCourseCode = "";
 
-    bool delConfirmation = false;
 
     private string searchTerm = "";
 
@@ -126,28 +124,19 @@
 
     }
 
-    private async Task DeleteCourse(string courseCodeToDel)
+    private void DeleteCourse(string courseCodeToDel)
     {
-        // delCourseCode = courseCodeToDel;
-        // showDelpopup = true;
-        // await Task.Delay(TimeSpan.FromSeconds(5));
-        // Console.WriteLine($"showdelpopup:{showDelpopup}");
-        // Console.WriteLine($"del confirm1:{delConfirmation}");
-        // if (delConfirmation == true)
-        // {
-            // Console.WriteLine($"del confirm2:{delConfirmation}");
-            await courseService.DeleteCourse(courseCodeToDel);
-            await ReloadCourses();
-            showDelpopup = false; 
-            StateHasChanged();
-        // }
-        // if(delConfirmation == false)
-        // {
-        //     showDelpopup = false;
-        // }
-
+        delCourseCode = courseCodeToDel;
+        showDelpopup = true;
     }
-
+    private async Task ExecuteDelete()
+    {
+        await courseService.DeleteCourse(delCourseCode);
+        await ReloadCourses();
+        showDelpopup = false;
+        StateHasChanged();
+    }
+    private void ExecuteCancelForDelete() => showDelpopup = false;
 
 
 
@@ -164,7 +153,7 @@
         StateHasChanged();
     }
 
-    public void HandleCancel()
+    public void HandleCancelForAddform()
     {
         showAddForm = false;
         addedCourse = new();

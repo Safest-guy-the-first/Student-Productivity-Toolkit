@@ -616,15 +616,17 @@ button.btn-primary {
     z-index:6;
 }
 
-
+.table-scroll{
+    max-height:fit-content;
+    overflow-y:auto;
+}
 .course-header {
     flex: 0 0 auto;
     position: sticky;
-    top: var(--topbar-height); 
+    top: var(--topbar-height);
     z-index: 1000;
-    background: var(--background); 
-    width:100%
-    border-bottom: 1px solid var(--secondary);
+    background: var(--background);
+    width: 100% border-bottom: 1px solid var(--secondary);
 }
 .controls {
     max-width: 1200px;
