@@ -6,6 +6,7 @@ namespace SPT_API.Models
     {
         [Key]public int id { get; set; }
 
+        public bool isSelected { get; set; } = false;
         
         public string? cuuid {  get; set; } = null;
 
@@ -15,7 +16,7 @@ namespace SPT_API.Models
         public string? CourseCode {  get; set; } = null;
         
         
-        [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "{0} cannot contain special characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9\:\s]*$", ErrorMessage = "{0} cannot contain special characters.")]
         public string? CourseTitle { get; set; } = null;
 
         

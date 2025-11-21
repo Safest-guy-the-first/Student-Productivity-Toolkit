@@ -13,6 +13,7 @@ builder.Services.AddScoped(sp => new HttpClient
 });
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<GPAService>();
 
 
 var app = builder.Build();

@@ -63,8 +63,8 @@ namespace SPT_API.Controllers
             return CreatedAtAction(nameof(GetStudentByUsername), new {username = added.studentUserName},added);
         }
 
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteStudent([FromBody] DeleteUserDTO deleteReq, IPasswordService passwordService)
+        [HttpDelete("delete")]// it doesnt need a from body
+        public async Task<IActionResult> DeleteStudent([FromBody] StudentModel deleteReq, IPasswordService passwordService)
         {
             
             if (deleteReq == null) { return BadRequest("Null Entry"); }

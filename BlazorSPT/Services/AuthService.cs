@@ -16,7 +16,7 @@ namespace BlazorSPT.Services
         public StudentModel? CurrentUser { get; private set; }
         private readonly Dictionary<string, StudentModel> _activeUsers = new();
 
-        public async void Logout(string userId)
+        public void Logout(string userId)
         {
             if (_activeUsers.ContainsKey(userId)) 
             {
@@ -66,5 +66,13 @@ namespace BlazorSPT.Services
             return createdStudent;
         }
 
+        public async Task DeleteUser()
+        {
+            // Delete Logic
+        }
+        public async Task OTP()
+        {
+            //Implement this later
+        }
     }
 }

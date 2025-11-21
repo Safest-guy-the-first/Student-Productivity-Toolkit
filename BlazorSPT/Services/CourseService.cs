@@ -1,5 +1,4 @@
-﻿using SPT_API.Data.DTOs;
-using SPT_API.Models;
+﻿using SPT_API.Models;
 
 namespace BlazorSPT.Services
 {

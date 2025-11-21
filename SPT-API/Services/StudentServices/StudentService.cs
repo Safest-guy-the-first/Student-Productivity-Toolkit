@@ -61,20 +61,20 @@ namespace SPT_API.Services.StudentServices
             return student;
         }
 
-        public async Task<DeleteUserResponse> DeleteStudent(DeleteUserDTO deleteReq, IPasswordService passwordService)
+        public async Task<DeleteUserResponse> DeleteStudent(StudentModel deleteReq, IPasswordService passwordService)// rewrite this, remove the unnecessary return statement
         {
-            var acpass = await _db.StudentTable.FirstOrDefaultAsync(s => s.studentUserName == deleteReq._studentUsername);
+            var acpass = await _db.StudentTable.FirstOrDefaultAsync(s => s.studentUserName == deleteReq.studentUserName);
             DeleteUserResponse delResponse = new DeleteUserResponse();
-            if (!passwordService.VerifyPassword(deleteReq._studentPassword, acpass.studentPassword))
+            if (!passwordService.VerifyPassword(deleteReq.studentPassword, acpass.studentPassword))
             {
                 delResponse.Success = false;
                 delResponse.Message = "Invalid Password";
                 return delResponse;
             }
-            var studentDelReq = _db.StudentTable.FirstOrDefaultAsync(s => s.firstName == deleteReq._firstName
-           && s.lastName == deleteReq._lastName
-           && s.studentUserName == deleteReq._studentUsername
-           && s.studentPassword == deleteReq._studentPassword);
+            var studentDelReq = _db.StudentTable.FirstOrDefaultAsync(s => s.firstName == deleteReq.firstName
+           && s.lastName == deleteReq.lastName
+           && s.studentUserName == deleteReq.studentUserName
+           && s.studentPassword == deleteReq.studentPassword);
 
             if (studentDelReq == null)
             {

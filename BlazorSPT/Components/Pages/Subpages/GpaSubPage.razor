@@ -1,5 +1,6 @@
 ﻿@using SPT_API.Models
 @inject BlazorSPT.Services.CourseService courseService
+@inject BlazorSPT.Services.GPAService gpaservice
 @using BlazorSPT.Services;
 
 
@@ -8,6 +9,9 @@
     <table class="table table-striped course-table">
         <thead>
             <tr>
+                <th>Select All
+                    <input type="checkbox" bind="@SelectAll" @onchange = "ToggleSelectAll"/>
+                </th>
                 <th>Course Code</th>
                 <th>Course Title</th>
                 <th>Course Unit</th>
@@ -18,6 +22,7 @@
             @foreach (var course in courses.OrderBy(c => c.CourseTitle))
             {
                 <tr>
+                    @* <td><input type="checkbox" bind="@course.isSelected" /></td>//this doesnt select properly lookinto it *@
                     <td>@course.CourseCode</td>
                     <td>@course.CourseTitle</td>
                     <td>@course.CourseUnit</td>
@@ -26,19 +31,34 @@
             }
         </tbody>
     </table>
+    <p>Your GPA is @GPA </p>
+    <button @onclick=FetchGpa>Calculate GPA</button>
 </div>
 
 
 
 @code {
-	private List<CourseModel> courses = new();
+    private List<CourseModel> courses = new();
 
     [Inject] private AuthService AuthService { get; set; } = default;
 
     private StudentModel User;
 
-   
-    
+    private double GPA = 0;
+
+    private async Task FetchGpa()
+    {
+        GPA = await gpaservice.CalculateGPA();
+    }
+    private bool SelectAll = true;
+    private void ToggleSelectAll()
+    {
+        SelectAll = !SelectAll;
+        foreach (var course in courses)
+        {
+            course.isSelected = SelectAll;
+        }
+    }
 
 
 

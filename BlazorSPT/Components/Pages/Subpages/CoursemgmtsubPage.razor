@@ -26,11 +26,11 @@
     {
         <AddCourseSubPage addedCourse="addedCourse" User="User" OnCourseAdded="AddCourse" OnCancel="HandleCancelForAddform"/>
     } 
-     @if(showDelpopup == true)
+    @if(showDelpopup == true)
     {
         <ConfirmationModal OnConfirm="ExecuteDelete" OnCancel="ExecuteCancelForDelete">
             <Message>
-                <p>Delete <strong>@delCourseCode</strong>?</p>
+                <p>Delete <strong>@actionCourseCode</strong>?</p>
                 <p class="text-danger">This will remove it permanently</p>
             </Message>
         </ConfirmationModal>
@@ -75,7 +75,7 @@
                                 <td>@course.CourseUnit</td>
                                 <td>@course.Grade</td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning me-2" @onclick="() => EditCourse(course,sn)">Edit</button>
+                                    <button class="btn btn-sm btn-warning me-2" @onclick="() => EditCourse(course.CourseCode)">Edit</button>
                                     <button class="btn btn-sm btn-danger" @onclick="() => DeleteCourse(course.CourseCode)">Delete</button>
                                 </td>
                             </tr>
@@ -94,6 +94,7 @@
 @code {
     private List<CourseModel>? courses;
 
+
     private CourseModel addedCourse = new();
 
 
@@ -104,7 +105,9 @@
 
     private bool showDelpopup = false;
 
-    string delCourseCode = "";
+    private bool showEditForm = false;
+
+    string actionCourseCode = "";
 
 
     private string searchTerm = "";
@@ -119,19 +122,20 @@
 
 
 
-    private void EditCourse(object m, int count)
+    private void EditCourse(string courseCodeToEdit)
     {
-
+        actionCourseCode = courseCodeToEdit;
+        //continue later
     }
 
     private void DeleteCourse(string courseCodeToDel)
     {
-        delCourseCode = courseCodeToDel;
+        actionCourseCode = courseCodeToDel;
         showDelpopup = true;
     }
     private async Task ExecuteDelete()
     {
-        await courseService.DeleteCourse(delCourseCode);
+        await courseService.DeleteCourse(actionCourseCode);
         await ReloadCourses();
         showDelpopup = false;
         StateHasChanged();

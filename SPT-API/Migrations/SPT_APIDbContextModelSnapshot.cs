@@ -23,6 +23,7 @@ namespace SPT_API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CourseCode")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CourseTitle")
@@ -31,12 +32,14 @@ namespace SPT_API.Migrations
                     b.Property<uint>("CourseUnit")
                         .HasColumnType("INTEGER");
 
-                    b.Property<char?>("Grade")
+                    b.Property<char>("Grade")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("cuuid")
-                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("isSelected")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("id");
 
@@ -107,9 +110,7 @@ namespace SPT_API.Migrations
                     b.HasOne("SPT_API.Models.StudentModel", "Student")
                         .WithMany("Courses")
                         .HasForeignKey("cuuid")
-                        .HasPrincipalKey("uniqueUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasPrincipalKey("uniqueUserId");
 
                     b.Navigation("Student");
                 });

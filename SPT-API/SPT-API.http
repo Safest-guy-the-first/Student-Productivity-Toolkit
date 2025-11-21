@@ -41,7 +41,7 @@ Content-Type: application/json
 POST {{SPT_API_HostAddress}}/spt/StudentModel/login
 Content-Type: application/json
 {
-    "_Email": "m@m.m",
+    "_Username": "daoyd6",
     "_Password": "Vision@cu"
 }
 ###
@@ -87,7 +87,7 @@ Content-Type: application/json
 }
 ###
 GET {{SPT_API_HostAddress}}/spt/g/calculategpa
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzU4MTAyNzYxLCJleHAiOjE3NTgxODkxNjEsImlhdCI6MTc1ODEwMjc2MX0.Qo8LqcoG3hFo55_oDuFFsV85P3CmwV3MH3kfFyg0jqo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjFkZTJlZDY5IiwibmJmIjoxNzYzNjc4ODIwLCJleHAiOjE3NjM3NjUyMjAsImlhdCI6MTc2MzY3ODgyMH0.Xabz_VQTWxe5gzYdZvnidc1rKwOOZWI5ask2wZcCl08
 Accept: application/json
 
 ###

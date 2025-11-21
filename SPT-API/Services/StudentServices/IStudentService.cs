@@ -11,7 +11,7 @@ namespace SPT_API.Services.StudentServices
         Task<StudentModel> GetStudentByUsername(string username);
         Task<StudentModel> GetStudentByEmail(string username);
         Task<StudentModel> AddStudent(StudentModel student, IPasswordService passwordService);
-        Task<DeleteUserResponse> DeleteStudent(DeleteUserDTO deleteReq, IPasswordService passwordService);
+        Task<DeleteUserResponse> DeleteStudent(StudentModel deleteReq, IPasswordService passwordService);// this doesn't need a return
         Task<StudentModel> EditStudent(string userName, updateStudentDTO edit);
         Task<LoginResponseDTO> Login(LoginRequestDTO loginReq, IPasswordService passwordService);
     }

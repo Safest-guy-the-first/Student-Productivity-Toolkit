@@ -43,7 +43,7 @@
                     <GpaSubPage/>
                     break;
                 case "attendance":
-                    <p> attendance</p>
+                    <AttendanceSubPage/>
                     break;
                 case "settings":
                     <p> settings</p>
@@ -58,7 +58,7 @@
     private string activeView = "home";
     [Inject] private AuthService AuthService { get; set; } = default;
 
-    private StudentModel User;
+    private StudentModel? User;
 
 
 
@@ -69,7 +69,7 @@
 
     void SetView(string view) => activeView = view;
 
-    async Task Logout()
+    async void Logout()
     {
         if(User.uniqueUserId == null)
         {

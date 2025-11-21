@@ -18,11 +18,11 @@ namespace SPT_API.Controllers
         }
 
         [HttpGet("calculategpa")]
-        public IActionResult CalcGPA() 
+        public async Task<IActionResult> CalcGPA() 
         {
             var _cuuid = User.FindFirstValue(ClaimTypes.Name);
             if (string.IsNullOrEmpty(_cuuid) == true || string.IsNullOrEmpty(_cuuid) == true) { return NotFound(); }
-            var gpa = _GpaService.CalculateGPA(_cuuid);
+            double gpa = _GpaService.CalculateGPA(_cuuid);
             return Ok(gpa);
         }
 
